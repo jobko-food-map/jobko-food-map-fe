@@ -1,11 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "types": [
-      "kakao.maps.d.ts",
-    ],
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "jsx": "react-jsx",
     "strict": true,
     "strictNullChecks": true,
@@ -33,9 +34,17 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["src/*"]
+      "@app/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
