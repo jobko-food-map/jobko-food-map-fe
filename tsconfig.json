@@ -1,6 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "types": [
+      "kakao.maps.d.ts",
+    ],
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
