@@ -14,9 +14,6 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.67.2
         version: 5.67.2(@tanstack/react-query@5.67.2(react@19.0.0))(react@19.0.0)
-      kakao.maps.d.ts:
-        specifier: ^0.1.40
-        version: 0.1.40
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -72,6 +69,9 @@ importers:
       globals:
         specifier: ^15.15.0
         version: 15.15.0
+      kakao.maps.d.ts:
+        specifier: ^0.1.40
+        version: 0.1.40
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
