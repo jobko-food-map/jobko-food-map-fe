@@ -20,6 +20,7 @@
     "react-router": "^7.3.0"
   },
   "devDependencies": {
+    "kakao.maps.d.ts": "^0.1.40",
     "@eslint/js": "^9.21.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@types/react": "^19.0.10",
