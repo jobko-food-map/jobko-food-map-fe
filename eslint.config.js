@@ -1,24 +1,32 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import js from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import sortDestructureKeysPlugin from 'eslint-plugin-sort-destructure-keys';
 import unusedImports from 'eslint-plugin-unused-imports';
-import tseslint from 'typescript-eslint'
-import prettierConfig from 'eslint-config-prettier';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
+/** @type {import('typescript-eslint').Config} */
 const config = tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', '.react-router', 'node_modules'] },
+  js.configs.recommended,
+  tseslint.configs.recommended,
   prettierConfig,
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      sourceType: 'module',
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
     plugins: {
+      react: reactPlugin,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'sort-destructure-keys': sortDestructureKeysPlugin,
@@ -31,10 +39,7 @@ const config = tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'prefer-const': 'error',
       'no-console': 'warn',
       'no-prototype-builtins': 'warn',
@@ -80,6 +85,6 @@ const config = tseslint.config(
       ],
     },
   },
-)
+);
 
-export default a;
+export default config;

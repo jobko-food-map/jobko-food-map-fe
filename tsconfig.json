@@ -1,19 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2017",
-    "types": [
-      "kakao.maps.d.ts",
-    ],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "ES2022",
+    "types": ["kakao.maps.d.ts", "node", "vite/client"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"],
     "strict": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     "noUncheckedIndexedAccess": false,
@@ -29,7 +25,7 @@
     "module": "esnext",
     "moduleDetection": "force",
     "preserveWatchOutput": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "inlineSources": false,
     "declaration": true,
     "composite": false,
@@ -37,17 +33,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@app/*": [
-        "src/*"
-      ]
+      "@app/*": ["src/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["**/*", "**/.server/**/*", "**/.client/**/*", ".react-router/types/**/*"],
+  "exclude": ["node_modules", "dist", "scripts"]
 }

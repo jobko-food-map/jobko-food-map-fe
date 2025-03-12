@@ -9,7 +9,6 @@ const AppRoot = () => {
   return (
     <>
       <Link to={paths.map.getHref()}>go map</Link>
-      <Outlet />
     </>
   );
 };
