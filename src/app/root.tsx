@@ -1,7 +1,8 @@
 import type { Route } from './+types/root';
-import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import { isRouteErrorResponse, Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 import { AppProvider } from './provider';
 import '@app/styles/reset.css';
+import MainLayout from './layouts/MainLayout';
 
 export const links: Route.LinksFunction = () => [];
 
@@ -11,6 +12,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet='utf-8' />
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport' />
+        <link href='/src/styles.css' rel='stylesheet' />
         <title>잡코리아&알바몬 맛집 지도</title>
         <script
           src='//dapi.kakao.com/v2/maps/sdk.js?appkey=3653c8e9e3393edef9436f812f6f9c88&libraries=services,clusterer'
@@ -29,7 +31,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return <MainLayout />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
