@@ -5,7 +5,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "build": "tsc -b && vite build",
     "dev": "react-router dev",
     "generate-router-types": "react-router typegen",
     "lint": "eslint . --fix",
