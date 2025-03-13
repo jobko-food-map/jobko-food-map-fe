@@ -10,7 +10,7 @@
     "generate-router-types": "react-router typegen",
     "lint": "eslint . --fix",
     "prettier": "prettier --write .",
-    "start": "react-router-serve ./build/server/index.js",
+    "start": "vite preview",
     "typecheck": "pnpm run generate-router-types && tsc -b tsconfig.json"
   },
   "dependencies": {
