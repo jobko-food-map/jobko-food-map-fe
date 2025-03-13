@@ -2,13 +2,7 @@ import type { Route } from './+types/root';
 import { isRouteErrorResponse, Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 import MainLayout from './layouts/MainLayout';
 import { AppProvider } from './provider';
-
-export const links: Route.LinksFunction = () => [
-  {
-    rel: 'stylesheet',
-    href: '/src/styles/reset.css',
-  },
-];
+import '@app/styles/reset.css';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
