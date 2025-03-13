@@ -1,8 +1,9 @@
 import type { Route } from './+types/root';
 import { isRouteErrorResponse, Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 import { AppProvider } from './provider';
-import '@app/styles/reset.css';
+// import '@app/styles/reset.css';
 import MainLayout from './layouts/MainLayout';
+import '@app/styles/styles.css';
 
 export const links: Route.LinksFunction = () => [];
 

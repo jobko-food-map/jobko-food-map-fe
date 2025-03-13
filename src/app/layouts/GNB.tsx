@@ -1,15 +1,22 @@
 import { Link } from 'react-router';
-import { paths } from '@app/config/paths';
 
 const GNB = () => {
+  const handleGoogleLogin = () => {
+    // Add your Google login logic here
+    console.log('Google login clicked');
+  };
+
   return (
     <nav className="bg-gray-800 p-4 flex justify-between items-center">
-      <div className="text-red text-2xl">
+      <div className="text-2xl text-white">
         <Link to="/">Logo</Link>
       </div>
-      <ul className="flex space-x-4">
-        <li><Link className="text-white hover:underline" to={paths.map.getHref()}>GNB Map</Link></li>
-      </ul>
+      <button
+        className="bg-white text-gray-800 p-2 rounded hover:bg-gray-200"
+        onClick={handleGoogleLogin}
+      >
+        Google Login
+      </button>
     </nav>
   );
 };
