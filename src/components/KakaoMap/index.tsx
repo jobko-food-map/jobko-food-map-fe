@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 
 interface Place {
-    lat: number;
-    lng: number;
-    title: string;
-    placeId: number;
-    description: string;
+  lat: number;
+  lng: number;
+  title: string;
+  placeId: number;
+  description: string;
 }
 
 const mockData: Place[] = [
@@ -42,11 +42,11 @@ function KakaoMap() {
 
   const handleCloseModal = () => {
     setSelectedPlace({
-        lat: 0,
-        lng: 0,
-        title: '',
-        placeId: 0,
-        description: '',
+      lat: 0,
+      lng: 0,
+      title: '',
+      placeId: 0,
+      description: '',
     });
   };
 
@@ -68,7 +68,7 @@ function KakaoMap() {
           <>
             <CustomOverlayMap position={{ lat: data.lat - 0.0002, lng: data.lng }}>
               <div style={{ padding: '10px', backgroundColor: 'white', border: '1px solid black' }}>{data.title}</div>
-            </CustomOverlayMap> 
+            </CustomOverlayMap>
             <MapMarker
               key={index}
               title={data.title}
@@ -82,12 +82,20 @@ function KakaoMap() {
         ))}
       </KaKaoMap>
       {selectedPlace && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={handleCloseModal}>&times;</span>
+        <div className='modal'>
+          <div className='modal-content'>
+            <span className='close' onClick={handleCloseModal}>
+              &times;
+            </span>
             <h2>{selectedPlace.title}</h2>
             <p>{selectedPlace.description}</p>
-            <a href={`https://map.kakao.com/link/map/${selectedPlace.placeId}`} rel="noopener noreferrer" target="_blank">View on Kakao Map</a>
+            <a
+              href={`https://map.kakao.com/link/map/${selectedPlace.placeId}`}
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              View on Kakao Map
+            </a>
           </div>
         </div>
       )}

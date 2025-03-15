@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 
 interface Place {
@@ -54,7 +54,7 @@ function Report() {
     const ps = new kakao.maps.services.Places();
     ps.keywordSearch(placeName, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
-        const { y, x, id } = result[0];
+        const { id, x, y } = result[0];
         setCoordinates({ lat: parseFloat(y), lng: parseFloat(x) });
         setPlace({
           ...place,
@@ -71,72 +71,72 @@ function Report() {
   };
 
   return (
-    <div className="p-4 flex">
-      <div className="w-1/2 pr-4">
-        <h1 className="text-2xl font-bold mb-4">새로운 장소 제보하기</h1>
+    <div className='p-4 flex'>
+      <div className='w-1/2 pr-4'>
+        <h1 className='text-2xl font-bold mb-4'>새로운 장소 제보하기</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700">장소명</label>
+          <div className='mb-4'>
+            <label className='block text-gray-700'>장소명</label>
             <input
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-              name="placeName"
-              type="text"
+              className='mt-1 block w-full p-2 border border-gray-300 rounded'
+              name='placeName'
+              type='text'
               value={placeName}
               required
               onChange={handleUrlChange}
             />
             <button
-              type="button"
-              className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 mt-2"
+              className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600 mt-2'
+              type='button'
               onClick={handleAddressLookup}
             >
               조회하기
             </button>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">카테고리</label>
+          <div className='mb-4'>
+            <label className='block text-gray-700'>카테고리</label>
             <select
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-              name="category"
+              className='mt-1 block w-full p-2 border border-gray-300 rounded'
+              name='category'
               value={place.category}
               required
               onChange={handleChange}
             >
-              <option value="한식">한식</option>
-              <option value="중식">중식</option>
-              <option value="일식">일식</option>
-              <option value="양식">양식</option>
+              <option value='한식'>한식</option>
+              <option value='중식'>중식</option>
+              <option value='일식'>일식</option>
+              <option value='양식'>양식</option>
             </select>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">설명</label>
+          <div className='mb-4'>
+            <label className='block text-gray-700'>설명</label>
             <textarea
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-              name="description"
+              className='mt-1 block w-full p-2 border border-gray-300 rounded'
+              name='description'
               value={place.description}
               required
               onChange={handleChange}
             />
           </div>
           <button
-            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-            type="submit"
+            className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600'
             disabled={!lookupDone} // Disable submit button if lookup is not done
+            type='submit'
           >
             제출하기
           </button>
         </form>
       </div>
       {coordinates && (
-        <div className="w-1/2 pl-4">
-          <h2 className="text-xl font-bold mb-2">Preview</h2>
+        <div className='w-1/2 pl-4'>
+          <h2 className='text-xl font-bold mb-2'>Preview</h2>
           <KaKaoMap
             center={coordinates}
+            level={3}
             style={{
               width: '100%',
               height: '400px',
             }}
-            level={3}
           >
             <MapMarker position={coordinates} />
           </KaKaoMap>

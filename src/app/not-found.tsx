@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { paths } from '@app/config/paths';
+import { paths } from '@app/configs/paths';
 
 const NotFoundRoute = () => {
   return (
