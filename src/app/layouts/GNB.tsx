@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import GoogleLoginButton from '@app/features/auth/components/google';
+import GoogleLoginButton from '@app/features/auth/components/google-login-button';
 
 const GNB = () => {
   return (

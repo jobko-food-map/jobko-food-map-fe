@@ -14,6 +14,7 @@
     "typecheck": "pnpm run generate-router-types && tsc -b tsconfig.json"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "@react-router/fs-routes": "^7.3.0",
     "@react-router/node": "^7.3.0",
     "@react-router/serve": "^7.3.0",
