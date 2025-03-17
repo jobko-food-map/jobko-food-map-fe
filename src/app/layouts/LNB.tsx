@@ -8,7 +8,12 @@ const LNB = () => {
       <ul className='space-y-2'>
         <li>
           <Link className='text-gray-700 hover:text-gray-900' to={paths.map.getHref()}>
-            지도
+            지도로 보기
+          </Link>
+        </li>
+        <li>
+          <Link className='text-gray-700 hover:text-gray-900' to={paths.list.getHref()}>
+            목록으로 보기
           </Link>
         </li>
         <li>
@@ -18,7 +23,7 @@ const LNB = () => {
         </li>
         <li>
           <Link className='text-gray-700 hover:text-gray-900' to={paths.adminReport.getHref()}>
-            제보 관리
+            투표중인 맛집
           </Link>
         </li>
       </ul>

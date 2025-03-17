@@ -7,6 +7,11 @@ export const paths = {
     path: 'map',
     getHref: () => '/map',
   },
+  // 목록으로 보기
+  list: {
+    path: 'list',
+    getHref: () => '/list',
+  },
   //제보하기
   report: {
     path: 'report',

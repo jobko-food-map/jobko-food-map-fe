@@ -66,9 +66,9 @@ function KakaoMap() {
   return (
     <div className="relative">
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-4">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={() => handleCategoryChange('전체')}>전체</button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={() => handleCategoryChange('한식')}>한식</button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={() => handleCategoryChange('중식')}>중식</button>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('전체')}>전체</button>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('한식')}>한식</button>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('중식')}>중식</button>
         {/* Add more category buttons as needed */}
       </div>
       <KaKaoMap
