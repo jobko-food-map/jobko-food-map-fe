@@ -16,6 +16,11 @@ const LNB = () => {
             제보하기
           </Link>
         </li>
+        <li>
+          <Link className='text-gray-700 hover:text-gray-900' to={paths.adminReport.getHref()}>
+            제보 관리
+          </Link>
+        </li>
       </ul>
     </div>
   );

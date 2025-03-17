@@ -12,4 +12,10 @@ export const paths = {
     path: 'report',
     getHref: () => '/report',
   },
+  //제보 관리 페이지
+  adminReport: {
+    path: 'admin/report',
+    getHref: () => '/admin/report',
+  },
+
 } as const;
