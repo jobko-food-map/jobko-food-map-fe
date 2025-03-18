@@ -8,6 +8,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ko'>
       <head>
+      <script crossOrigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2891117108245071"
+     async></script>
         <meta charSet='utf-8' />
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport' />
         <title>잡코리아&알바몬 맛집 지도</title>

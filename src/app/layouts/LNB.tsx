@@ -23,7 +23,7 @@ const LNB = () => {
         </li>
         <li>
           <Link className='text-gray-700 hover:text-gray-900' to={paths.adminReport.getHref()}>
-            투표중인 맛집
+            투표하기
           </Link>
         </li>
       </ul>
