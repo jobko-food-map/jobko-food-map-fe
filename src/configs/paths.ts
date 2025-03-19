@@ -22,5 +22,4 @@ export const paths = {
     path: 'admin/report',
     getHref: () => '/admin/report',
   },
-
 } as const;

@@ -2,6 +2,7 @@ import type { TokenResponse } from '@react-oauth/google';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { clientEnv } from '@app/configs/env';
+import { axiosClient } from '@app/lib/api-client';
 
 interface UserInfo {
   email: string;
@@ -22,14 +23,23 @@ const CustomButton = () => {
     return data;
   };
 
-  const handleLogin = async () => {
-    // 유저 정보 저장
+  const joinUserInfo = async (userInfo: UserInfo) => {
+    await axiosClient.post('/v1/user', {
+      userId: userInfo.email,
+      userName: userInfo.name,
+    });
+  };
+
+  const saveAccessToken = (accessToken: string) => {
+    localStorage.setItem('accessToken', accessToken);
   };
 
   const loginProcess = useGoogleLogin({
     onSuccess: async tokenResponse => {
       const userInfo = await getUserInfo(tokenResponse);
-      handleLogin();
+      await joinUserInfo(userInfo);
+      saveAccessToken(tokenResponse.access_token);
+      alert('로그인 성공');
     },
     onError: error => console.log('error', error),
   });

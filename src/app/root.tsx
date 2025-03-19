@@ -3,20 +3,24 @@ import { isRouteErrorResponse, Links, Meta, Scripts, ScrollRestoration } from 'r
 import MainLayout from './layouts/MainLayout';
 import { AppProvider } from './provider';
 import '@app/styles/reset.css';
+import { clientEnv } from '@app/configs/env';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='ko'>
+    <html lang='ko' suppressHydrationWarning>
       <head>
-      <script crossOrigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2891117108245071"
-     async></script>
         <meta charSet='utf-8' />
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport' />
         <title>잡코리아&알바몬 맛집 지도</title>
         <script
-          src='//dapi.kakao.com/v2/maps/sdk.js?appkey=3653c8e9e3393edef9436f812f6f9c88&libraries=services,clusterer'
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${clientEnv.KAKAO_MAP_APP_KEY}&libraries=services,clusterer`}
           type='text/javascript'
-        ></script>
+        />
+        <script
+          crossOrigin='anonymous'
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientEnv.GOOGLE_ADSENSE_ID}`}
+          async
+        />
         <Meta />
         <Links />
       </head>

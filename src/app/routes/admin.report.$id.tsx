@@ -1,11 +1,11 @@
-import ReportDetail from "@app/components/Admin/Report/[id]";
+import ReportDetail from '@app/components/Admin/Report/[id]';
 
-function AdminReportDetailRoute () {
-    return (
-        <>
-            <ReportDetail />
-        </>
-    );
+function AdminReportDetailRoute() {
+  return (
+    <>
+      <ReportDetail />
+    </>
+  );
 }
 
 export default AdminReportDetailRoute;

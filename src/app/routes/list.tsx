@@ -1,9 +1,7 @@
-import FoodList from "@app/components/FoodList";
+import FoodList from '@app/components/FoodList';
 
 function ListRoute() {
-  return (
-    <FoodList />
-  );
+  return <FoodList />;
 }
 
 export default ListRoute;

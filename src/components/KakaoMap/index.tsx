@@ -1,11 +1,12 @@
+import type { V1AllPlaceGetResponse } from '@app/types/api';
+import type { FoodCategory } from '@app/types/api/enum';
 import React, { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
-import type { Place } from '@app/types/place';
-import type { FoodCategory } from '@app/types/category';
+import BaseLink from '../BaseLink';
 
 function KakaoMap() {
-  const [places, setPlaces] = useState<Place[]>([]);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [places, setPlaces] = useState<V1AllPlaceGetResponse>([]);
+  const [selectedPlace, setSelectedPlace] = useState<V1AllPlaceGetResponse[number] | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +30,7 @@ function KakaoMap() {
     fetchPlaces();
   }, []);
 
-  const handleMarkerClick = (data: Place) => {
+  const handleMarkerClick = (data: V1AllPlaceGetResponse[number]) => {
     setSelectedPlace(data);
   };
 
@@ -41,7 +42,8 @@ function KakaoMap() {
     setSelectedCategory(category);
   };
 
-  const filteredData = selectedCategory === '전체' ? places : places.filter((place) => place.category === selectedCategory);
+  const filteredData =
+    selectedCategory === '전체' ? places : places.filter(place => place.category === selectedCategory);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -52,17 +54,42 @@ function KakaoMap() {
   }
 
   return (
-    <div className="relative">
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-4">
+    <div className='relative'>
+      <div className='absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-4'>
         {/* <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('ALL')}>전체</button> */}
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('KOREAN')}>한식</button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('CHINESE')}>중식</button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('JAPANESE')}>일식</button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('WESTERN')}>양식</button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600" onClick={() => handleCategoryChange('DESSERT')}>디저트</button>
+        <button
+          className='bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600'
+          onClick={() => handleCategoryChange('KOREAN')}
+        >
+          한식
+        </button>
+        <button
+          className='bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600'
+          onClick={() => handleCategoryChange('CHINESE')}
+        >
+          중식
+        </button>
+        <button
+          className='bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600'
+          onClick={() => handleCategoryChange('JAPANESE')}
+        >
+          일식
+        </button>
+        <button
+          className='bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600'
+          onClick={() => handleCategoryChange('WESTERN')}
+        >
+          양식
+        </button>
+        <button
+          className='bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600'
+          onClick={() => handleCategoryChange('DESSERT')}
+        >
+          디저트
+        </button>
       </div>
       <KaKaoMap
-        id="map"
+        id='map'
         level={3}
         center={{
           lat: 37.4941971,
@@ -76,7 +103,9 @@ function KakaoMap() {
         {filteredData.map((data, index) => (
           <React.Fragment key={index}>
             <CustomOverlayMap position={{ lat: data.lat - 0.0002, lng: data.lng }}>
-              <div style={{ padding: '10px', backgroundColor: 'white', border: '1px solid black' }}>{data.placeName}</div>
+              <div style={{ padding: '10px', backgroundColor: 'white', border: '1px solid black' }}>
+                {data.placeName}
+              </div>
             </CustomOverlayMap>
             <MapMarker
               title={data.placeName}
@@ -90,20 +119,20 @@ function KakaoMap() {
         ))}
       </KaKaoMap>
       {selectedPlace && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={handleCloseModal}>
+        <div className='modal'>
+          <div className='modal-content'>
+            <span className='close' onClick={handleCloseModal}>
               &times;
             </span>
             <h2>{selectedPlace.placeName}</h2>
             <p>{selectedPlace.placeDesc}</p>
-            <a
-              href={`https://map.kakao.com/link/map/${selectedPlace.placeId}`}
-              rel="noopener noreferrer"
-              target="_blank"
+            <BaseLink
+              rel='noopener noreferrer'
+              target='_blank'
+              to={`https://map.kakao.com/link/map/${selectedPlace.placeId}`}
             >
               View on Kakao Map
-            </a>
+            </BaseLink>
           </div>
         </div>
       )}

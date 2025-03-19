@@ -4,15 +4,17 @@ const createEnv = () => {
   const EnvSchema = z.object({
     API_URL: z.string(),
     SHORT_ENV: z.string(),
-    BUILD_ID: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_ADSENSE_ID: z.string(),
+    KAKAO_MAP_APP_KEY: z.string(),
   });
 
   const envVars = {
     API_URL: import.meta.env.VITE_APP_API_URL,
     SHORT_ENV: import.meta.env.VITE_APP_SHORT_ENV,
-    BUILD_ID: import.meta.env.VITE_APP_BUILD_ID,
     GOOGLE_CLIENT_ID: import.meta.env.VITE_APP_GOOGLE_CLIENT_ID,
+    GOOGLE_ADSENSE_ID: import.meta.env.VITE_APP_GOOGLE_ADSENSE_ID,
+    KAKAO_MAP_APP_KEY: import.meta.env.VITE_APP_KAKAO_MAP_APP_KEY,
   };
 
   const parsedEnv = EnvSchema.safeParse(envVars);

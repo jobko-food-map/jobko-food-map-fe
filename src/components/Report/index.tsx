@@ -1,9 +1,9 @@
+import type { V1PlacePostRequest } from '@app/types/api';
 import React, { useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
-import type { Place }  from '@app/types/place';
 
 function Report() {
-  const [place, setPlace] = useState<Place>({
+  const [place, setPlace] = useState<V1PlacePostRequest>({
     placeName: '',
     lat: 0,
     lng: 0,

@@ -15,7 +15,7 @@ const mockData: Place[] = [
     id: 1,
     title: 'Sample Place 1',
     lat: 37.5665,
-    lng: 126.9780,
+    lng: 126.978,
     placeId: '1',
     description: 'Description for Sample Place 1',
     category: '한식',
@@ -24,7 +24,7 @@ const mockData: Place[] = [
     id: 2,
     title: 'Sample Place 2',
     lat: 37.5665,
-    lng: 126.9780,
+    lng: 126.978,
     placeId: '2',
     description: 'Description for Sample Place 2',
     category: '중식',
@@ -68,9 +68,10 @@ function FoodList() {
     setCurrentPage(1); // Reset to the first page on category change
   };
 
-  const filteredPlaces = places.filter((place) =>
-    (selectedCategory === '전체' || place.category === selectedCategory) &&
-    place.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPlaces = places.filter(
+    place =>
+      (selectedCategory === '전체' || place.category === selectedCategory) &&
+      place.title.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const indexOfLastPlace = currentPage * placesPerPage;
@@ -92,46 +93,42 @@ function FoodList() {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Food List</h1>
-      <div className="flex mb-4 space-x-4">
+    <div className='p-4'>
+      <h1 className='text-2xl font-bold mb-4'>Food List</h1>
+      <div className='flex mb-4 space-x-4'>
         <input
-          className="p-2 border border-gray-300 rounded"
-          placeholder="Search by title"
-          type="text"
+          className='p-2 border border-gray-300 rounded'
+          placeholder='Search by title'
+          type='text'
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <select
-          className="p-2 border border-gray-300 rounded"
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-        >
-          <option value="전체">전체</option>
-          <option value="한식">한식</option>
-          <option value="중식">중식</option>
+        <select className='p-2 border border-gray-300 rounded' value={selectedCategory} onChange={handleCategoryChange}>
+          <option value='전체'>전체</option>
+          <option value='한식'>한식</option>
+          <option value='중식'>중식</option>
           {/* Add more categories as needed */}
         </select>
       </div>
-      <table className="min-w-full bg-white">
+      <table className='min-w-full bg-white'>
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">Title</th>
-            <th className="py-2 px-4 border-b">Category</th>
-            <th className="py-2 px-4 border-b">Description</th>
+            <th className='py-2 px-4 border-b'>Title</th>
+            <th className='py-2 px-4 border-b'>Category</th>
+            <th className='py-2 px-4 border-b'>Description</th>
           </tr>
         </thead>
         <tbody>
-          {currentPlaces.map((place) => (
-            <tr className="hover:bg-gray-100" key={place.id}>
-              <td className="py-2 px-4 border-b">{place.title}</td>
-              <td className="py-2 px-4 border-b">{place.category}</td>
-              <td className="py-2 px-4 border-b">{place.description}</td>
+          {currentPlaces.map(place => (
+            <tr className='hover:bg-gray-100' key={place.id}>
+              <td className='py-2 px-4 border-b'>{place.title}</td>
+              <td className='py-2 px-4 border-b'>{place.category}</td>
+              <td className='py-2 px-4 border-b'>{place.description}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="flex justify-center mt-4">
+      <div className='flex justify-center mt-4'>
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             className={`px-4 py-2 mx-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'}`}
