@@ -1,0 +1,1 @@
+export type FoodCategory = 'ASIAN' | 'CHINESE' | 'KOREAN' | 'WESTERN' | 'JAPANESE' | 'DESSERT';

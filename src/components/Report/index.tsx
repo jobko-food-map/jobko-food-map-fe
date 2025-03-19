@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
-
-interface Place {
-  title: string;
-  lat: number;
-  lng: number;
-  placeId: string;
-  description: string;
-  category: string;
-}
+import type { Place }  from '@app/types/place';
 
 function Report() {
   const [place, setPlace] = useState<Place>({
-    title: '',
+    placeName: '',
     lat: 0,
     lng: 0,
     placeId: '',
-    description: '',
-    category: '한식',
+    placeDesc: '',
+    category: 'KOREAN',
   });
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [placeName, setPlaceName] = useState<string>('');
@@ -35,19 +27,9 @@ function Report() {
     setPlaceName(e.target.value);
     setPlace({
       ...place,
-      title: e.target.value,
+      placeName: e.target.value,
     });
     setLookupDone(false); // Reset lookup status when place name changes
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!lookupDone) {
-      alert('Please perform the lookup before submitting.');
-      return;
-    }
-    console.log('Submitted place:', place);
-    // Add your submission logic here
   };
 
   const handleAddressLookup = () => {
@@ -68,6 +50,47 @@ function Report() {
         setLookupDone(false); // Set lookup status to false
       }
     });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Check for missing fields
+    if (!place.placeName || !place.lat || !place.lng || !place.placeId || !place.placeDesc || !place.category) {
+      alert('All fields must be filled out.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/place', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(place),
+      });
+
+      if (response.ok) {
+        alert('Place submitted successfully!');
+        // Reset form after successful submission
+        setPlace({
+          placeName: '',
+          lat: 0,
+          lng: 0,
+          placeId: '',
+          placeDesc: '',
+          category: 'KOREAN',
+        });
+        setPlaceName('');
+        setCoordinates(null);
+        setLookupDone(false);
+      } else {
+        alert('Failed to submit place.');
+      }
+    } catch (error) {
+      console.error('Error submitting place:', error);
+      alert('An error occurred while submitting the place.');
+    }
   };
 
   return (
@@ -102,18 +125,19 @@ function Report() {
               required
               onChange={handleChange}
             >
-              <option value='한식'>한식</option>
-              <option value='중식'>중식</option>
-              <option value='일식'>일식</option>
-              <option value='양식'>양식</option>
+              <option value='KOREAN'>한식</option>
+              <option value='CHINESE'>중식</option>
+              <option value='JAPANESE'>일식</option>
+              <option value='WESTERN'>양식</option>
+              <option value='DESSERT'>디저트</option>
             </select>
           </div>
           <div className='mb-4'>
             <label className='block text-gray-700'>설명</label>
             <textarea
               className='mt-1 block w-full p-2 border border-gray-300 rounded'
-              name='description'
-              value={place.description}
+              name='placeDesc'
+              value={place.placeDesc}
               required
               onChange={handleChange}
             />
