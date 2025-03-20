@@ -19,7 +19,7 @@ export const paths = {
   },
   //제보 관리 페이지
   adminReport: {
-    path: 'admin/report',
-    getHref: () => '/admin/report',
+    path: 'vote',
+    getHref: () => '/vote',
   },
 } as const;

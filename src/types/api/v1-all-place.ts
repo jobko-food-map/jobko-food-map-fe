@@ -1,3 +1,11 @@
 import type { PlaceInfo } from './schemas';
 
-export type V1AllPlaceGetResponse = Array<PlaceInfo>;
+export interface GetPlacesResponse {
+    content: PlaceInfo[];
+    totalPages: number;
+    totalElements: number;
+    pageNumber: number;
+    pageSize: number;
+  }
+
+export type V1AllPlaceGetResponse = GetPlacesResponse;

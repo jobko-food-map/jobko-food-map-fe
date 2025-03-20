@@ -17,3 +17,16 @@ export interface PlaceInfo {
   lng: number;
   createdAt: string;
 }
+
+export interface ReportInfo {
+  id: number;
+  placeId: string;
+  placeName: string;
+  placeDesc: string;
+  category: FoodCategory;
+  lat: number;
+  lng: number;
+  createdAt: string;
+  approveCount: number;
+  rejectCount: number;
+}
