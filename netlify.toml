@@ -1,6 +1,6 @@
 [build]
     publish = "dist/client"
-    command = "pnpm run build"
+    command = "pnpm run build-prd"
 [[redirects]]
     from = "/*"
     to = "/index.html"

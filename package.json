@@ -5,7 +5,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "react-router build --mode local",
+    "build": "react-router build --mode dev",
     "build-prd": "react-router build --mode prd",
     "dev": "react-router dev",
     "generate-router-types": "react-router typegen",
