@@ -1,28 +1,10 @@
-import type { TokenResponse } from '@react-oauth/google';
+import type { UserInfo } from '@app/lib/auth';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
 import { clientEnv } from '@app/configs/env';
 import { axiosClient } from '@app/lib/api-client';
+import { getUserInfoByAccessToken } from '@app/lib/auth';
 
-interface UserInfo {
-  email: string;
-  email_verified: boolean;
-  family_name: string;
-  given_name: string;
-  name: string;
-  picture: string;
-  sub: string;
-}
 const CustomButton = () => {
-  const getUserInfo = async (tokenResponse: TokenResponse) => {
-    const { data } = await axios.get<UserInfo>('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: {
-        Authorization: `Bearer ${tokenResponse.access_token}`,
-      },
-    });
-    return data;
-  };
-
   const joinUserInfo = async (userInfo: UserInfo) => {
     await axiosClient.post('/v1/user', {
       userId: userInfo.email,
@@ -36,7 +18,7 @@ const CustomButton = () => {
 
   const loginProcess = useGoogleLogin({
     onSuccess: async tokenResponse => {
-      const userInfo = await getUserInfo(tokenResponse);
+      const userInfo = await getUserInfoByAccessToken(tokenResponse.access_token);
       await joinUserInfo(userInfo);
       saveAccessToken(tokenResponse.access_token);
       alert('로그인 성공');
