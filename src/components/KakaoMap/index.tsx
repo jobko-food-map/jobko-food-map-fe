@@ -11,6 +11,7 @@ function KakaoMap() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+
   useEffect(() => {
     const fetchPlaces = async () => {
       try {

@@ -1,26 +1,23 @@
-import type { UserInfo } from '@app/lib/auth';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { clientEnv } from '@app/configs/env';
-import { axiosClient } from '@app/lib/api-client';
 import { getUserInfoByAccessToken } from '@app/lib/auth';
+import { useSessionStore } from '@app/store';
+import { getUser } from '../api/user';
 
 const CustomButton = () => {
-  const joinUserInfo = async (userInfo: UserInfo) => {
-    await axiosClient.post('/v1/user', {
-      userId: userInfo.email,
-      userName: userInfo.name,
-    });
-  };
+  const { updateState } = useSessionStore();
 
   const saveAccessToken = (accessToken: string) => {
     localStorage.setItem('accessToken', accessToken);
   };
 
+
   const loginProcess = useGoogleLogin({
     onSuccess: async tokenResponse => {
       const userInfo = await getUserInfoByAccessToken(tokenResponse.access_token);
-      await joinUserInfo(userInfo);
       saveAccessToken(tokenResponse.access_token);
+      const loggedUserInfo = await getUser(userInfo.email);
+      updateState({userInfo: loggedUserInfo});
       alert('로그인 성공');
     },
     onError: error => console.log('error', error),

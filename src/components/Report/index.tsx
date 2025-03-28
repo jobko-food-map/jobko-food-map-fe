@@ -1,3 +1,4 @@
+import { useSessionStore } from '@app/store';
 import type { V1PlacePostRequest } from '@app/types/api';
 import React, { useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
@@ -14,6 +15,7 @@ function Report() {
   const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
   const [placeName, setPlaceName] = useState<string>('');
   const [lookupDone, setLookupDone] = useState<boolean>(false);
+  const { userInfo } = useSessionStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -60,14 +62,13 @@ function Report() {
       alert('All fields must be filled out.');
       return;
     }
-
     try {
-      const response = await fetch('https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/place', {
+      const response = await fetch('https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(place),
+        body: JSON.stringify({...place, userId: userInfo?.userId}),
       });
 
       if (response.ok) {
@@ -130,6 +131,7 @@ function Report() {
               <option value='JAPANESE'>일식</option>
               <option value='WESTERN'>양식</option>
               <option value='DESSERT'>디저트</option>
+              <option value='ASIAN'>아시안</option>
             </select>
           </div>
           <div className='mb-4'>

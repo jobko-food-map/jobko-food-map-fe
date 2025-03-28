@@ -1,11 +1,17 @@
+import { useSessionStore } from '@app/store';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 interface Report {
   id: number;
+  placeId: number;
   placeName: string;
   category: string;
   placeDesc: string;
+  approveCount: number;
+  rejectCount: number;
+  lat: number;
+  lng: number;
 }
 
 interface V1AllReportGetResponse {
@@ -15,6 +21,7 @@ interface V1AllReportGetResponse {
 }
 
 const Vote = () => {
+  const { userInfo } = useSessionStore();
   const [reports, setReports] = useState<V1AllReportGetResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -49,16 +56,18 @@ const Vote = () => {
     fetchReports();
   }, [currentPage, pageSize]);
 
-  const handleApprove = async (id: number) => {
+  const handleApprove = async (_report:Report) => {
     try {
-      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}/approve`, {
+      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: true }),
       });
       if (response.ok) {
         alert('Report approved successfully!');
         setReports((prev) => ({
           ...prev!,
-          content: prev!.content.filter((report) => report.id !== id),
+          content: prev!.content.filter((report) => report.id !== _report.id),
         }));
       } else {
         alert('Failed to approve report.');
@@ -69,16 +78,18 @@ const Vote = () => {
     }
   };
 
-  const handleReject = async (id: number) => {
+  const handleReject = async (_report: Report) => {
     try {
-      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}/reject`, {
+      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: false }),
+        headers: {'Content-Type': 'application/json'},
       });
       if (response.ok) {
         alert('Report rejected successfully!');
         setReports((prev) => ({
           ...prev!,
-          content: prev!.content.filter((report) => report.id !== id),
+          content: prev!.content.filter((report) => report.id !== _report.id),
         }));
       } else {
         alert('Failed to reject report.');
@@ -136,19 +147,19 @@ const Vote = () => {
                   className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleApprove(report.id);
+                    handleApprove(report);
                   }}
                 >
-                  Approve
+                  Approve: {report.approveCount}
                 </button>
                 <button
                   className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleReject(report.id);
+                    handleReject(report);
                   }}
                 >
-                  Reject
+                  Reject: {report.rejectCount}
                 </button>
               </td>
             </tr>

@@ -16,6 +16,7 @@ export interface PlaceInfo {
   lat: number;
   lng: number;
   createdAt: string;
+  isApprove: boolean;
 }
 
 export interface ReportInfo {
