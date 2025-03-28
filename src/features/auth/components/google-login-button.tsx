@@ -5,7 +5,7 @@ import { useSessionStore } from '@app/store';
 import { getUser } from '../api/user';
 
 const CustomButton = () => {
-  const { updateState } = useSessionStore();
+  const { updateState, userInfo } = useSessionStore();
 
   const saveAccessToken = (accessToken: string) => {
     localStorage.setItem('accessToken', accessToken);
@@ -22,7 +22,9 @@ const CustomButton = () => {
     },
     onError: error => console.log('error', error),
   });
-  return (
+  return userInfo ? (<button className='bg-white text-gray-800 p-2 rounded hover:bg-gray-200'>
+    {userInfo.userName}
+  </button>) :(
     <button
       className='bg-white text-gray-800 p-2 rounded hover:bg-gray-200'
       type='button'

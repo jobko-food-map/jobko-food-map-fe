@@ -1,16 +1,16 @@
-import type { PlaceInfo, V1AllPlaceGetResponse } from '@app/types/api';
-import type { FoodCategory } from '@app/types/api/enum';
 import React, { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
+import type { PlaceInfo, V1AllPlaceGetResponse } from '@app/types/api';
+import type { FoodCategory } from '@app/types/api/enum';
 import BaseLink from '../BaseLink';
 
 function KakaoMap() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();
   const [selectedPlace, setSelectedPlace] = useState<PlaceInfo>();
-  const [selectedCategory, setSelectedCategory] = useState<FoodCategory>('ALL');
+  const [hoveredPlaceId, setHoveredPlaceId] = useState<string | null>(null); // Track hovered marker
+  const [selectedCategory, setSelectedCategory] = useState<FoodCategory | 'ALL'>('ALL');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -35,6 +35,14 @@ function KakaoMap() {
 
   const handleMarkerClick = (data: PlaceInfo) => {
     setSelectedPlace(data);
+  };
+
+  const handleMouseOver = (placeId: string) => {
+    setHoveredPlaceId(placeId);
+  };
+
+  const handleMouseOut = () => {
+    setHoveredPlaceId(null);
   };
 
   const handleCloseModal = () => {
@@ -112,18 +120,29 @@ function KakaoMap() {
       >
         {filteredData?.map((data) => (
           <React.Fragment key={data.placeId}>
-            <CustomOverlayMap position={{ lat: data.lat - 0.0002, lng: data.lng }}>
-              <div style={{ padding: '10px', backgroundColor: 'white', border: '1px solid black' }}>
-                {data.placeName}
-              </div>
-            </CustomOverlayMap>
+            {hoveredPlaceId === data.placeId && (
+              <CustomOverlayMap position={{ lat: data.lat - 0.0002, lng: data.lng }}>
+                <div style={{ padding: '10px', backgroundColor: 'white', border: '1px solid black' }}>
+                  {data.placeName}
+                </div>
+              </CustomOverlayMap>
+            )}
             <MapMarker
               title={data.placeName}
+              image={{
+                src: '/imgs/mark.png', // Path to the custom marker image
+                size: {
+                  width: 36,
+                  height: 46,
+                },
+              }}
               position={{
                 lat: data.lat,
                 lng: data.lng,
               }}
               onClick={() => handleMarkerClick(data)}
+              onMouseOut={handleMouseOut}
+              onMouseOver={() => handleMouseOver(data.placeId)}
             />
           </React.Fragment>
         ))}
