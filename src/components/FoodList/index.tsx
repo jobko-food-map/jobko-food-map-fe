@@ -66,6 +66,10 @@ function FoodList() {
     return [];
   };
 
+  const handleMapViewClick = (placeId: string) => {
+      window.open(`https://map.kakao.com/link/map/${placeId}`, '_blank');
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -129,14 +133,16 @@ function FoodList() {
             <th className="py-2 px-4 border-b">이름</th>
             <th className="py-2 px-4 border-b">카테고리</th>
             <th className="py-2 px-4 border-b">설명</th>
+            <th className="py-2 px-4 border-b">지도보기</th>
           </tr>
         </thead>
         <tbody>
           {filteredPlaces().map((place) => (
             <tr className="hover:bg-gray-100" key={place.id}>
-              <td className="py-2 px-4 border-b">{place.placeName}</td>
-              <td className="py-2 px-4 border-b">{categoryList.find((f) => f.value === place.category)?.label}</td>
-              <td className="py-2 px-4 border-b">{place.placeDesc}</td>
+              <td className="py-2 px-4 border-b text-center align-middle">{place.placeName}</td>
+              <td className="py-2 px-4 border-b text-center align-middle">{categoryList.find((f) => f.value === place.category)?.label}</td>
+              <td className="py-2 px-4 border-b text-center align-middle">{place.placeDesc}</td>
+              <td className="py-2 px-4 border-b text-center align-middle"><button className="bg-food-orange-300 hover:bg-food-orange-500 opacity-80 p-2 rounded-2xl text-white" onClick={() => handleMapViewClick(place.placeId)}>지도보기</button></td>
             </tr>
           ))}
         </tbody>

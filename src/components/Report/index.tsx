@@ -110,7 +110,7 @@ function Report() {
               onChange={handleUrlChange}
             />
             <button
-              className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600 mt-2'
+              className='bg-food-orange-300 text-white p-2 rounded hover:bg-food-orange-500 mt-2'
               type='button'
               onClick={handleAddressLookup}
             >
@@ -144,7 +144,7 @@ function Report() {
             />
           </div>
           <button
-            className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600'
+            className='bg-food-orange-300 text-white p-2 rounded hover:bg-food-orange-500'
             disabled={!lookupDone} // Disable submit button if lookup is not done
             type='submit'
           >

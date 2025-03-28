@@ -1,5 +1,20 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-food-pink-100: #f9d1d1;
+  --color-food-pink-200: #fc2d5c;
+  --color-food-pink-300: #fa2c5b;
+  --color-food-pink-400: #f82b5a;
+  --color-food-pink-500: #f62a59;
+  --color-food-pink-600: #f42a58;
+  --color-food-pink-700: #f12a57;
+  --color-food-pink-800: #ef2956;
+  --color-food-pink-900: #ed2855;
+  --color-food-orange-300: #fa5c2b;
+  --color-food-orange-400: #f84b2a;
+  --color-food-orange-500: #f63a29;
+}
+
 @layer base {
   html,
   body,

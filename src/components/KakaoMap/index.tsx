@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import type { PlaceInfo, V1AllPlaceGetResponse } from '@app/types/api';
 import { categoryList, type FoodCategory } from '@app/types/api/enum';
-import BaseLink from '../BaseLink';
 
 function KakaoMap() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();
-  const [selectedPlace, setSelectedPlace] = useState<PlaceInfo>();
-  const [hoveredPlaceId, setHoveredPlaceId] = useState<string | null>(null); // Track hovered marker
+  const [selectedPlace, setSelectedPlace] = useState<PlaceInfo | null>(null);
+  const [hoveredPlaceId, setHoveredPlaceId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<FoodCategory | 'ALL'>('ALL');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [cardPosition, setCardPosition] = useState<{ top: number; left: number } | null>(null);
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -33,8 +33,20 @@ function KakaoMap() {
     fetchPlaces();
   }, []);
 
-  const handleMarkerClick = (data: PlaceInfo) => {
+  const handleMarkerClick = (data: PlaceInfo, marker: kakao.maps.Marker) => {
     setSelectedPlace(data);
+    setHoveredPlaceId(null);
+
+    // Get the position of the marker on the screen
+    const target = marker.getPosition();
+    target.getLat();
+    target.getLng();
+    // console.log(target)
+    // const rect = target.getBoundingClientRect();
+    // setCardPosition({
+    //   top: rect.top + window.scrollY,
+    //   left: rect.left + window.scrollX + 50, // Offset to the right of the marker
+    // });
   };
 
   const handleMouseOver = (placeId: string) => {
@@ -45,8 +57,9 @@ function KakaoMap() {
     setHoveredPlaceId(null);
   };
 
-  const handleCloseModal = () => {
-    setSelectedPlace(undefined);
+  const handleCloseCard = () => {
+    setSelectedPlace(null);
+    setCardPosition(null);
   };
 
   const handleCategoryChange = (category: FoodCategory | 'ALL') => {
@@ -69,30 +82,17 @@ function KakaoMap() {
   return places && (
     <div className="relative">
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-4">
-      {
-        categoryList.map((category) => (
+        {categoryList.map((category) => (
           <button
             key={category.value}
-            className={`bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600 ${
-              selectedCategory === category.value ? 'bg-blue-600' : ''
+            className={`bg-food-orange-300 text-white px-4 py-2 rounded-2xl hover:bg-food-orange-500 ${
+              selectedCategory === category.value ? 'bg-food-orange-500' : ''
             }`}
             onClick={() => handleCategoryChange(category.value)}
           >
             {category.label}
           </button>
-        ))
-      }
-      {/* {categoryList.map((category) => (
-        <button
-          key={category}
-          className={`bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600 ${
-            selectedCategory === category ? 'bg-blue-600' : ''
-          }`}
-          onClick={() => handleCategoryChange(category)}
-        >
-          {category}
-        </button>
-      ))} */}
+        ))}
       </div>
       <KaKaoMap
         id="map"
@@ -128,31 +128,31 @@ function KakaoMap() {
                 lat: data.lat,
                 lng: data.lng,
               }}
-              onClick={() => handleMarkerClick(data)}
+              onClick={(marker) => handleMarkerClick(data, marker)}
               onMouseOut={handleMouseOut}
               onMouseOver={() => handleMouseOver(data.placeId)}
             />
           </React.Fragment>
         ))}
-      </KaKaoMap>
-      {selectedPlace && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={handleCloseModal}>
+        {selectedPlace && (
+          <CustomOverlayMap position={{ lat: selectedPlace.lat - 0.0001, lng: selectedPlace.lng - 0.0002 }}>
+          <div className="absolute z-20 bg-white p-4 border border-gray-300 rounded shadow-lg" style={{ top: '20%', left: '70%' }}>
+            <button className="absolute top-1 right-3 text-gray-500" onClick={() => setSelectedPlace(null)}>
               &times;
-            </span>
-            <h2>{selectedPlace.placeName}</h2>
-            <p>{selectedPlace.placeDesc}</p>
-            <BaseLink
+            </button>
+            <h2 className="text-lg font-bold">{selectedPlace.placeName}</h2>
+            <p className='mb-3'>{selectedPlace.placeDesc}</p>
+            <a
+              className="bg-food-pink-200 opacity-80 p-2 rounded text-white"
+              href={`https://map.kakao.com/link/map/${selectedPlace.placeId}`}
               rel="noopener noreferrer"
               target="_blank"
-              to={`https://map.kakao.com/link/map/${selectedPlace.placeId}`}
             >
-              View on Kakao Map
-            </BaseLink>
-          </div>
+              지도에서 보기
+            </a>
         </div>
-      )}
+        </CustomOverlayMap>)}
+      </KaKaoMap>
     </div>
   );
 }

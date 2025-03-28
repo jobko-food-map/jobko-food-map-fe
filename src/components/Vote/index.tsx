@@ -97,6 +97,11 @@ const Vote = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleMapViewÇlick = (placeId: string, e: MouseEvent) => {
+    e.stopPropagation();
+    window.open(`https://map.kakao.com/link/map/${placeId}`, '_blank');
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -118,6 +123,7 @@ const Vote = () => {
             <th className="py-2 px-4 border-b">이름</th>
             <th className="py-2 px-4 border-b">카테고리</th>
             <th className="py-2 px-4 border-b">설명</th>
+            <th className="py-2 px-4 border-b">지도보기</th>
             <th className="py-2 px-4 border-b">투표하기</th>
           </tr>
         </thead>
@@ -128,12 +134,15 @@ const Vote = () => {
               key={report.id}
               onClick={() => handleRowClick(report.id)}
             >
-              <td className="py-2 px-4 border-b">{report.placeName}</td>
-              <td className="py-2 px-4 border-b">{categoryList.find(f => f.value === report.category)?.label}</td>
-              <td className="py-2 px-4 border-b">{report.placeDesc}</td>
-              <td className="py-2 px-4 border-b flex space-x-2">
+              <td className="py-2 px-4 border-b text-center align-middle">{report.placeName}</td>
+              <td className="py-2 px-4 border-b text-center align-middle" >{categoryList.find(f => f.value === report.category)?.label}</td>
+              <td className="py-2 px-4 border-b text-center align-middle">{report.placeDesc}</td>
+              <td className="py-2 px-4 border-b text-center align-middle">
+                <button className='bg-food-orange-300 opacity-80 p-2 rounded-2xl text-white hover:bg-food-orange-500' onClick={(e) => handleMapViewÇlick(report.placeId, e)}>지도보기</button>
+              </td>
+              <td className="py-2 px-4 border-b text-center align-middle">
                 <button
-                  className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+                  className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-600 mr-2"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleApprove(report);
@@ -142,7 +151,7 @@ const Vote = () => {
                   좋아요: {report.approveCount}
                 </button>
                 <button
-                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                  className="bg-red-400 text-white px-2 py-1 rounded hover:bg-red-600"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleReject(report);
