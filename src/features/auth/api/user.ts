@@ -7,6 +7,11 @@ export const getUser = async (userId: string) => {
   return data;
 };
 
+export const postUser = async (userId: string, userName: string) => {
+  const { data } = await axiosClient.post<UserInfo>('/v1/user', {userId, userName});
+  return data;
+};
+
 export const useUserQuery = (userId: string) => {
   return useQuery({
     queryKey: ['USER', userId],

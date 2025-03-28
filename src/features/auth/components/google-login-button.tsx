@@ -2,7 +2,7 @@ import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { clientEnv } from '@app/configs/env';
 import { getUserInfoByAccessToken } from '@app/lib/auth';
 import { useSessionStore } from '@app/store';
-import { getUser } from '../api/user';
+import { postUser } from '../api/user';
 
 const CustomButton = () => {
   const { updateState, userInfo } = useSessionStore();
@@ -16,7 +16,7 @@ const CustomButton = () => {
     onSuccess: async tokenResponse => {
       const userInfo = await getUserInfoByAccessToken(tokenResponse.access_token);
       saveAccessToken(tokenResponse.access_token);
-      const loggedUserInfo = await getUser(userInfo.email);
+      const loggedUserInfo = await postUser(userInfo.email, userInfo.name);
       updateState({userInfo: loggedUserInfo});
       alert('로그인 성공');
     },
