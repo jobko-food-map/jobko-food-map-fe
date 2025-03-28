@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import type { PlaceInfo, V1AllPlaceGetResponse } from '@app/types/api';
-import type { FoodCategory } from '@app/types/api/enum';
+import { categoryList, type FoodCategory } from '@app/types/api/enum';
 import BaseLink from '../BaseLink';
 
 function KakaoMap() {
@@ -69,42 +69,30 @@ function KakaoMap() {
   return places && (
     <div className="relative">
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-4">
+      {
+        categoryList.map((category) => (
+          <button
+            key={category.value}
+            className={`bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600 ${
+              selectedCategory === category.value ? 'bg-blue-600' : ''
+            }`}
+            onClick={() => handleCategoryChange(category.value)}
+          >
+            {category.label}
+          </button>
+        ))
+      }
+      {/* {categoryList.map((category) => (
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600"
-          onClick={() => handleCategoryChange('ALL')}
+          key={category}
+          className={`bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600 ${
+            selectedCategory === category ? 'bg-blue-600' : ''
+          }`}
+          onClick={() => handleCategoryChange(category)}
         >
-          전체
+          {category}
         </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600"
-          onClick={() => handleCategoryChange('KOREAN')}
-        >
-          한식
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600"
-          onClick={() => handleCategoryChange('CHINESE')}
-        >
-          중식
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600"
-          onClick={() => handleCategoryChange('JAPANESE')}
-        >
-          일식
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600"
-          onClick={() => handleCategoryChange('WESTERN')}
-        >
-          양식
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600"
-          onClick={() => handleCategoryChange('DESSERT')}
-        >
-          디저트
-        </button>
+      ))} */}
       </div>
       <KaKaoMap
         id="map"

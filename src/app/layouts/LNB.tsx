@@ -26,6 +26,11 @@ const LNB = () => {
             투표하기
           </BaseLink>
         </li>
+        <li>
+          <BaseLink className='text-gray-700 hover:text-gray-900' to={paths.rejectFoodList.getHref()}>
+            탈락한 음식 목록
+          </BaseLink>
+        </li>
       </ul>
     </div>
   );

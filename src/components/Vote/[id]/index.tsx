@@ -1,19 +1,11 @@
+import { categoryList, type ReportInfo } from '@app/types/api';
 import React, { useEffect, useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
 
-interface Report {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  lat: number;
-  lng: number;
-}
-
 const VoteDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [report, setReport] = useState<Report | null>(null);
+  const [report, setReport] = useState<ReportInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +15,7 @@ const VoteDetail = () => {
       setError(null);
 
       try {
-        const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}`);
+        const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/${id}/report`);
         if (!response.ok) {
           throw new Error('Failed to fetch report');
         }
@@ -85,23 +77,24 @@ const VoteDetail = () => {
 
   return (
     <div className="p-4 relative">
-      <h1 className="text-2xl font-bold mb-4">Report Detail</h1>
+      <h1 className="text-2xl font-bold mb-4">투표 상세</h1>
       <div className="mb-4">
-        <h2 className="text-xl font-bold">{report.title}</h2>
-        <p className="text-gray-700">{report.description}</p>
-        <p className="text-gray-700">Category: {report.category}</p>
+        <h2 className="text-xl font-bold">{report.placeName}</h2>
+        <p className="text-gray-700">설명: {report.placeDesc}</p>
+        <p className="text-gray-700">카테고리: {categoryList.find(f => f.value === report.category)?.label}</p>
       </div>
       <div className="mb-4">
+        <h2>위치</h2>
         <KaKaoMap center={{ lat: report.lat, lng: report.lng }} level={3} style={{ width: '100%', height: '400px' }}>
-          <MapMarker position={{ lat: report.lat, lng: report.lng }} title={report.title} />
+          <MapMarker position={{ lat: report.lat, lng: report.lng }} title={report.placeName} />
         </KaKaoMap>
       </div>
-      <div className="absolute bottom-4 flex space-x-2">
+      <div className="bottom-4 flex space-x-2">
         <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onClick={handleApprove}>
-          Approve
+          좋아요
         </button>
         <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" onClick={handleReject}>
-          Reject
+          별로에요
         </button>
       </div>
     </div>

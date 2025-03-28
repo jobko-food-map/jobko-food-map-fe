@@ -5,7 +5,7 @@ const GNB = () => {
   return (
     <nav className='bg-gray-800 p-4 flex justify-between items-center'>
       <div className='text-2xl text-white'>
-        <BaseLink to='/'>Logo</BaseLink>
+        <BaseLink to='/'>점메추</BaseLink>
       </div>
       <GoogleLoginButton />
     </nav>

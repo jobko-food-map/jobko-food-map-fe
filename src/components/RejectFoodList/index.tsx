@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { categoryList, type FoodCategory, type V1AllPlaceGetResponse } from '@app/types/api';
 
-function FoodList() {
+function RejectFoodList() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +17,7 @@ function FoodList() {
       const queryParams = new URLSearchParams({
         pageNo: '0',
         pageSize: "100",
-        isApprove: 'true',
+        isApprove: 'false',
       });
 
       try {
@@ -76,7 +76,7 @@ function FoodList() {
 
   return places && (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">맛집 목록</h1>
+      <h1 className="text-2xl font-bold mb-4">탈락한 음식점들...</h1>
       <div className="flex mb-4 space-x-4">
         <div className="flex items-center space-x-2">
           <label>
@@ -146,4 +146,4 @@ function FoodList() {
   );
 }
 
-export default FoodList;
+export default RejectFoodList;

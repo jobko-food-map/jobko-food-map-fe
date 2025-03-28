@@ -1,21 +1,10 @@
 import { useSessionStore } from '@app/store';
+import { categoryList, type ReportInfo } from '@app/types/api';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-interface Report {
-  id: number;
-  placeId: number;
-  placeName: string;
-  category: string;
-  placeDesc: string;
-  approveCount: number;
-  rejectCount: number;
-  lat: number;
-  lng: number;
-}
-
 interface V1AllReportGetResponse {
-  content: Report[];
+  content: ReportInfo[];
   totalPages: number;
   totalElements: number;
 }
@@ -56,7 +45,7 @@ const Vote = () => {
     fetchReports();
   }, [currentPage, pageSize]);
 
-  const handleApprove = async (_report:Report) => {
+  const handleApprove = async (_report:ReportInfo) => {
     try {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
@@ -78,7 +67,7 @@ const Vote = () => {
     }
   };
 
-  const handleReject = async (_report: Report) => {
+  const handleReject = async (_report: ReportInfo) => {
     try {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
@@ -122,14 +111,14 @@ const Vote = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Reported Places</h1>
+      <h1 className="text-2xl font-bold mb-4">제보된 장소</h1>
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">Title</th>
-            <th className="py-2 px-4 border-b">Category</th>
-            <th className="py-2 px-4 border-b">Description</th>
-            <th className="py-2 px-4 border-b">Actions</th>
+            <th className="py-2 px-4 border-b">이름</th>
+            <th className="py-2 px-4 border-b">카테고리</th>
+            <th className="py-2 px-4 border-b">설명</th>
+            <th className="py-2 px-4 border-b">투표하기</th>
           </tr>
         </thead>
         <tbody>
@@ -140,7 +129,7 @@ const Vote = () => {
               onClick={() => handleRowClick(report.id)}
             >
               <td className="py-2 px-4 border-b">{report.placeName}</td>
-              <td className="py-2 px-4 border-b">{report.category}</td>
+              <td className="py-2 px-4 border-b">{categoryList.find(f => f.value === report.category)?.label}</td>
               <td className="py-2 px-4 border-b">{report.placeDesc}</td>
               <td className="py-2 px-4 border-b flex space-x-2">
                 <button
@@ -150,7 +139,7 @@ const Vote = () => {
                     handleApprove(report);
                   }}
                 >
-                  Approve: {report.approveCount}
+                  좋아요: {report.approveCount}
                 </button>
                 <button
                   className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
@@ -159,7 +148,7 @@ const Vote = () => {
                     handleReject(report);
                   }}
                 >
-                  Reject: {report.rejectCount}
+                  별로에요: {report.rejectCount}
                 </button>
               </td>
             </tr>

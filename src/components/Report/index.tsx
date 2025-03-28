@@ -1,5 +1,5 @@
 import { useSessionStore } from '@app/store';
-import type { V1PlacePostRequest } from '@app/types/api';
+import { categoryList, type V1PlacePostRequest } from '@app/types/api';
 import React, { useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 
@@ -126,12 +126,11 @@ function Report() {
               required
               onChange={handleChange}
             >
-              <option value='KOREAN'>한식</option>
-              <option value='CHINESE'>중식</option>
-              <option value='JAPANESE'>일식</option>
-              <option value='WESTERN'>양식</option>
-              <option value='DESSERT'>디저트</option>
-              <option value='ASIAN'>아시안</option>
+              {categoryList.map((category) => (
+                <option key={category.value} value={category.label}>
+                  {category.label}
+                </option>
+              ))}
             </select>
           </div>
           <div className='mb-4'>

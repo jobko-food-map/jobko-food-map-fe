@@ -22,8 +22,8 @@ const CustomButton = () => {
     },
     onError: error => console.log('error', error),
   });
-  return userInfo ? (<button className='bg-white text-gray-800 p-2 rounded hover:bg-gray-200'>
-    {userInfo.userName}
+  return userInfo ? (<button className='text-white p-2 rounded hover:bg-gray-200'>
+    {userInfo.userName}님 오늘 점심 뭐 드시겠어요?
   </button>) :(
     <button
       className='bg-white text-gray-800 p-2 rounded hover:bg-gray-200'

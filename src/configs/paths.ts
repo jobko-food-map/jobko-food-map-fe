@@ -22,4 +22,9 @@ export const paths = {
     path: 'vote',
     getHref: () => '/vote',
   },
+  //탈락한 음식 보기
+  rejectFoodList: {
+    path: 'reject',
+    getHref: () => '/reject',
+  }
 } as const;
