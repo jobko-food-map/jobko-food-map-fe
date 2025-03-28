@@ -134,9 +134,9 @@ function RejectFoodList() {
         <tbody>
           {filteredPlaces().map((place) => (
             <tr className="hover:bg-gray-100" key={place.id}>
-              <td className="py-2 px-4 border-b">{place.placeName}</td>
-              <td className="py-2 px-4 border-b">{categoryList.find((f) => f.value === place.category)?.label}</td>
-              <td className="py-2 px-4 border-b">{place.placeDesc}</td>
+              <td className="py-2 px-4 border-b txt-center">{place.placeName}</td>
+              <td className="py-2 px-4 border-b txt-center">{categoryList.find((f) => f.value === place.category)?.label}</td>
+              <td className="py-2 px-4 border-b txt-center">{place.placeDesc}</td>
             </tr>
           ))}
         </tbody>

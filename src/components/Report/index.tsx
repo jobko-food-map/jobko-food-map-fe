@@ -126,8 +126,8 @@ function Report() {
               required
               onChange={handleChange}
             >
-              {categoryList.map((category) => (
-                <option key={category.value} value={category.label}>
+              {categoryList.filter(f => f.value !== 'ALL').map((category) => (
+                <option key={category.value} value={category.value}>
                   {category.label}
                 </option>
               ))}

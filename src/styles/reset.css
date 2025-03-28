@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+.txt-center{
+  text-align: center;
+  align-items: center;
+  vertical-align: middle;
+}
+
 @theme {
   --color-food-pink-100: #f9d1d1;
   --color-food-pink-200: #fc2d5c;

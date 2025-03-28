@@ -50,7 +50,7 @@ const Vote = () => {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: true }),
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id}),
       });
       if (response.ok) {
         alert('Report approved successfully!');
@@ -71,7 +71,7 @@ const Vote = () => {
     try {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
-        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: false }),
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id}),
         headers: {'Content-Type': 'application/json'},
       });
       if (response.ok) {
@@ -80,8 +80,6 @@ const Vote = () => {
           ...prev!,
           content: prev!.content.filter((report) => report.id !== _report.id),
         }));
-      } else {
-        alert('Failed to reject report.');
       }
     } catch (err) {
       console.error('Error rejecting report:', err);
