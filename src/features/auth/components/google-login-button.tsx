@@ -22,9 +22,9 @@ const CustomButton = () => {
     },
     onError: error => console.log('error', error),
   });
-  return userInfo ? (<button className='text-white p-2 rounded hover:bg-gray-200'>
+  return userInfo ? (<span className='text-white p-2 rounded'>
     {userInfo.userName}님 오늘 점심 뭐 드시겠어요?
-  </button>) :(
+  </span>) :(
     <button
       className='bg-white text-gray-800 p-2 rounded hover:bg-gray-200'
       type='button'
