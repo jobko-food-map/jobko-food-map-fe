@@ -15,6 +15,13 @@ const CustomButton = () => {
   const loginProcess = useGoogleLogin({
     onSuccess: async tokenResponse => {
       const userInfo = await getUserInfoByAccessToken(tokenResponse.access_token);
+
+      // userInfo email 주소가 jobkorea.co.kr로 끝나지 않으면 로그인 실패
+      if (!userInfo.email.endsWith('@jobkorea.co.kr')) {
+        alert('jobkorea.co.kr 이메일로 로그인 해주세요.');
+        return;
+      }
+
       saveAccessToken(tokenResponse.access_token);
       const loggedUserInfo = await postUser(userInfo.email, userInfo.name);
       updateState({userInfo: loggedUserInfo});
