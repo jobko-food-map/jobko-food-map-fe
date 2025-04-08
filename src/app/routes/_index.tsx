@@ -20,6 +20,7 @@ const AppRoot = () => {
       <h2 className='text-2xl font-bold mb-2'>About the Project</h2>
       <p className='mb-4'>
         <ul className='list-disc pl-5'>
+          <li className="mb-2">로그인 하시면 제보하기와 투표하기 메뉴를 이용하실 수 있습니다!</li>
           <li className='mb-2'>서버 메모리가 작아서 느려요.. 무료 버전이라 양해 부탁드립니다..</li>
         </ul>
       </p>
