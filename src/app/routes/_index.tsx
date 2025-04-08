@@ -17,6 +17,12 @@ const AppRoot = () => {
         <li className='mb-2'>양지원(커넥션스쿼드) - 백엔드 담당</li>
         <li className='mb-2'>유선영(FE플랫폼) - 디자인 담당</li>
       </ul>
+      <h2 className='text-2xl font-bold mb-2'>About the Project</h2>
+      <p className='mb-4'>
+        <ul className='list-disc pl-5'>
+          <li className='mb-2'>서버 메모리가 작아서 느려요.. 무료 버전이라 양해 부탁드립니다..</li>
+        </ul>
+      </p>
     </div>
   );
 };
