@@ -50,7 +50,7 @@ const Vote = () => {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id}),
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: true }),
       });
       if (response.ok) {
         alert('Report approved successfully!');
@@ -71,7 +71,7 @@ const Vote = () => {
     try {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
-        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id}),
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: false }),
         headers: {'Content-Type': 'application/json'},
       });
       if (response.ok) {
