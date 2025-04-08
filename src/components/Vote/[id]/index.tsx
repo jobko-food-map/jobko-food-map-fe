@@ -9,6 +9,15 @@ const VoteDetail = () => {
   const [report, setReport] = useState<ReportInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { userInfo } = useSessionStore();
+
+  useEffect(() => {
+    if (!userInfo) {
+      alert('로그인 후 사용해주세요.');
+      window.location.href = '/';
+    }
+  }
+  , [userInfo]);
 
   useEffect(() => {
     const fetchReport = async () => {

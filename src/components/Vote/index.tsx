@@ -44,6 +44,14 @@ const Vote = () => {
   }, [currentPage, pageSize]);
   
   useEffect(() => {
+    if (!userInfo) {
+      alert('로그인 후 사용해주세요.');
+      window.location.href = '/';
+    }
+  }
+  , [userInfo]);
+
+  useEffect(() => {
     fetchReports();
   }, [fetchReports]);
 

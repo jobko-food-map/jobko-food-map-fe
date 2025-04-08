@@ -1,6 +1,6 @@
 import { useSessionStore } from '@app/store';
 import { categoryList, type V1PlacePostRequest } from '@app/types/api';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 
 function Report() {
@@ -16,6 +16,15 @@ function Report() {
   const [placeName, setPlaceName] = useState<string>('');
   const [lookupDone, setLookupDone] = useState<boolean>(false);
   const { userInfo } = useSessionStore();
+
+  // 로그인한 유저 정보가 없으면 alert 으로 알려주고 메인으로 팅겨내기
+  useEffect(() => {
+    if (!userInfo) {
+      alert('로그인 후 사용해주세요.');
+      window.location.href = '/';
+    }
+  }
+  , [userInfo]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
