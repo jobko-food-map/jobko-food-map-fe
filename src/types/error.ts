@@ -1,8 +1,7 @@
 export interface ApiErrorResponse {
-  type: string;
-  title: string;
+  code: string;
+  message: string;
   status: number;
-  instance: string;
-  error_code: string;
-  violations?: { field: string; message: string }[];
+  error: string;
+  timestamp: string;
 }

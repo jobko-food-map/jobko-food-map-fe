@@ -3,6 +3,7 @@ import { categoryList, type ReportInfo } from '@app/types/api';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Loading from '../Loading';
+import type { ApiErrorResponse } from '@app/types/error';
 
 interface V1AllReportGetResponse {
   content: ReportInfo[];
@@ -57,7 +58,8 @@ const Vote = () => {
         alert('Report approved successfully!');
         fetchReports();
       } else {
-        alert('Failed to approve report.');
+        const errorData = await response.json() as ApiErrorResponse;
+        alert(errorData.message);
       }
     } catch (err) {
       console.error('Error approving report:', err);
@@ -75,6 +77,9 @@ const Vote = () => {
       if (response.ok) {
         alert('Report rejected successfully!');
         fetchReports();
+      } else{
+        const errorData = await response.json() as ApiErrorResponse;
+        alert(errorData.message);
       }
     } catch (err) {
       console.error('Error rejecting report:', err);
