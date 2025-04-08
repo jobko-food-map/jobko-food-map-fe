@@ -1,7 +1,8 @@
-import { useSessionStore } from '@app/store';
-import { categoryList, type V1PlacePostRequest } from '@app/types/api';
+import type { V1PlacePostRequest } from '@app/types/api';
 import React, { useEffect, useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
+import { useSessionStore } from '@app/store';
+import { categoryList } from '@app/types/api';
 
 function Report() {
   const [place, setPlace] = useState<V1PlacePostRequest>({
@@ -23,8 +24,7 @@ function Report() {
       alert('로그인 후 사용해주세요.');
       window.location.href = '/';
     }
-  }
-  , [userInfo]);
+  }, [userInfo]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -77,7 +77,7 @@ function Report() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...place, userId: userInfo?.userId}),
+        body: JSON.stringify({ ...place, userId: userInfo?.userId }),
       });
 
       if (response.ok) {
@@ -136,11 +136,13 @@ function Report() {
               required
               onChange={handleChange}
             >
-              {categoryList.filter(f => f.value !== 'ALL').map((category) => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
+              {categoryList
+                .filter(f => f.value !== 'ALL')
+                .map(category => (
+                  <option key={category.value} value={category.value}>
+                    {category.label}
+                  </option>
+                ))}
             </select>
           </div>
           <div className='mb-4'>

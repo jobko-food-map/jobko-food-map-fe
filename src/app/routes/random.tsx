@@ -1,4 +1,4 @@
-import RandomFood from "@app/components/RandomFood";
+import RandomFood from '@app/components/RandomFood';
 
 function RandomFoodRoute() {
   return <RandomFood />;

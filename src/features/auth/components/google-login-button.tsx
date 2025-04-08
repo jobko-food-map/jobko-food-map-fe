@@ -11,7 +11,6 @@ const CustomButton = () => {
     localStorage.setItem('accessToken', accessToken);
   };
 
-
   const loginProcess = useGoogleLogin({
     onSuccess: async tokenResponse => {
       const userInfo = await getUserInfoByAccessToken(tokenResponse.access_token);
@@ -24,14 +23,14 @@ const CustomButton = () => {
 
       saveAccessToken(tokenResponse.access_token);
       const loggedUserInfo = await postUser(userInfo.email, userInfo.name);
-      updateState({userInfo: loggedUserInfo});
+      updateState({ userInfo: loggedUserInfo });
       alert('로그인 성공');
     },
     onError: error => console.log('error', error),
   });
-  return userInfo ? (<span className='text-white p-2 rounded'>
-    {userInfo.userName}님 오늘 점심 뭐 드시겠어요?
-  </span>) :(
+  return userInfo ? (
+    <span className='text-white p-2 rounded'>{userInfo.userName}님 오늘 점심 뭐 드시겠어요?</span>
+  ) : (
     <button
       className='bg-white text-gray-800 p-2 rounded hover:bg-gray-200'
       type='button'
