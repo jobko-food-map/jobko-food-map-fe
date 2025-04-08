@@ -26,5 +26,10 @@ export const paths = {
   rejectFoodList: {
     path: 'reject',
     getHref: () => '/reject',
-  }
+  },
+  //랜덤 음식 추천
+  randomFood: {
+    path: 'random',
+    getHref: () => '/random',
+  },
 } as const;

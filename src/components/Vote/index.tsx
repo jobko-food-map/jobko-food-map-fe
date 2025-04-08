@@ -121,6 +121,7 @@ const Vote = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">제보된 장소</h1>
+      <h3>좋아요/별로에요 차이가 5개 이상이면 자동으로 목록에 등록됩니다.</h3>
       <table className="min-w-full bg-white">
         <thead>
           <tr>

@@ -112,6 +112,7 @@ function Report() {
             <label className='block text-gray-700'>장소명</label>
             <input
               className='mt-1 block w-full p-2 border border-gray-300 rounded'
+              maxLength={20}
               name='placeName'
               type='text'
               value={placeName}
@@ -146,6 +147,7 @@ function Report() {
             <label className='block text-gray-700'>설명</label>
             <textarea
               className='mt-1 block w-full p-2 border border-gray-300 rounded'
+              maxLength={30}
               name='placeDesc'
               value={place.placeDesc}
               required
