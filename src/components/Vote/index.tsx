@@ -63,7 +63,6 @@ const Vote = () => {
         body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: true }),
       });
       if (response.ok) {
-        alert('Report approved successfully!');
         fetchReports();
       } else {
         const errorData = await response.json() as ApiErrorResponse;
@@ -71,7 +70,7 @@ const Vote = () => {
       }
     } catch (err) {
       console.error('Error approving report:', err);
-      alert('An error occurred while approving the report.');
+      alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
     }
   };
 
@@ -83,7 +82,6 @@ const Vote = () => {
         headers: {'Content-Type': 'application/json'},
       });
       if (response.ok) {
-        alert('Report rejected successfully!');
         fetchReports();
       } else{
         const errorData = await response.json() as ApiErrorResponse;
@@ -91,7 +89,7 @@ const Vote = () => {
       }
     } catch (err) {
       console.error('Error rejecting report:', err);
-      alert('An error occurred while rejecting the report.');
+      alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
     }
   };
 
@@ -138,7 +136,7 @@ const Vote = () => {
             <tr
               className="hover:bg-gray-100 cursor-pointer"
               key={report.id}
-              onClick={() => handleRowClick(report.id)}
+              // onClick={() => handleRowClick(report.id)}
             >
               <td className="py-2 px-4 border-b text-center align-middle">{report.placeName}</td>
               <td className="py-2 px-4 border-b text-center align-middle" >{categoryList.find(f => f.value === report.category)?.label}</td>

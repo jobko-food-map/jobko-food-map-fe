@@ -46,11 +46,6 @@ const VoteDetail = () => {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}/approve`, {
         method: 'POST',
       });
-      if (response.ok) {
-        alert('Report approved successfully!');
-      } else {
-        alert('Failed to approve report.');
-      }
     } catch (err) {
       console.error('Error approving report:', err);
       alert('An error occurred while approving the report.');

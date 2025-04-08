@@ -57,7 +57,7 @@ function Report() {
         });
         setLookupDone(true); // Set lookup status to true
       } else {
-        alert('Address not found');
+        alert('장소를 찾을 수 없습니다. 이름을 최대한 정확하게 입력해주세요. ex) OOO 교대점');
         setLookupDone(false); // Set lookup status to false
       }
     });
@@ -68,7 +68,7 @@ function Report() {
 
     // Check for missing fields
     if (!place.placeName || !place.lat || !place.lng || !place.placeId || !place.placeDesc || !place.category) {
-      alert('All fields must be filled out.');
+      alert('모든 필드를 입력해주세요.');
       return;
     }
     try {
@@ -81,7 +81,7 @@ function Report() {
       });
 
       if (response.ok) {
-        alert('Place submitted successfully!');
+        alert('장소가 성공적으로 제보되었습니다.');
         // Reset form after successful submission
         setPlace({
           placeName: '',
@@ -95,11 +95,11 @@ function Report() {
         setCoordinates(null);
         setLookupDone(false);
       } else {
-        alert('Failed to submit place.');
+        alert('장소 제보에 실패했습니다. 다시 시도해주세요.');
       }
     } catch (error) {
       console.error('Error submitting place:', error);
-      alert('An error occurred while submitting the place.');
+      alert('장소 제보에 실패했습니다. 관리자에게 문의해주세요.');
     }
   };
 
