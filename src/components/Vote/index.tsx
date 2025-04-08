@@ -165,11 +165,11 @@ const Vote = () => {
       <div className="flex justify-center mt-4">
         {Array.from({ length: reports.totalPages }, (_, index) => (
           <button
-            key={index + 1}
+            key={index}
             className={`px-4 py-2 mx-1 border rounded ${
-              currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+              currentPage === index ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
             }`}
-            onClick={() => handlePageChange(index + 1)}
+            onClick={() => handlePageChange(index)}
           >
             {index + 1}
           </button>
