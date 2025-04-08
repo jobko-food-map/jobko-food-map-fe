@@ -5,10 +5,15 @@ export const ErrorBoundary = () => {
 const AppRoot = () => {
   return (
     <div className='p-4'>
-      <h1 className='text-3xl font-bold mb-4'>Job Korea Food Map</h1>
+      <h1 className='text-3xl font-bold mb-4'>오늘 점심 뭐먹지...? 🍽️</h1>
       <p className='mb-4'>
-        Welcome to the Job Korea Food Map! Discover the best places to eat around Job Korea. Explore various restaurants
-        and food spots recommended by our community of food enthusiasts.
+        잡코리아&알바몬 점메추 서비스에 오신 여러분을 환영합니다!
+        <br />
+        로그인 후, 점심메뉴를 제보하고 투표해보세요!
+        <br />
+        <br />
+        오늘도 맛있는 점심식사 하세요! 😎
+        <br />
       </p>
       <h2 className='text-2xl font-bold mb-2'>Featured Creators</h2>
       <ul className='list-disc pl-5'>
@@ -20,8 +25,7 @@ const AppRoot = () => {
       <h2 className='text-2xl font-bold mb-2'>About the Project</h2>
       <p className='mb-4'>
         <ul className='list-disc pl-5'>
-          <li className="mb-2">로그인 하시면 제보하기와 투표하기 메뉴를 이용하실 수 있습니다!</li>
-          <li className='mb-2'>서버 메모리가 작아서 느려요.. 무료 버전이라 양해 부탁드립니다..</li>
+          <li className='mb-2'>서버 메모리가 작아서 느려요.. 무료 버전이라 양해 부탁드립니다.☺️</li>
         </ul>
       </p>
     </div>
