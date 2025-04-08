@@ -1,6 +1,6 @@
 import { useSessionStore } from '@app/store';
 import { categoryList, type ReportInfo } from '@app/types/api';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 interface V1AllReportGetResponse {
@@ -18,32 +18,32 @@ const Vote = () => {
   const [pageSize] = useState<number>(10);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      setLoading(true);
-      setError(null);
+  const fetchReports = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-      const queryParams = new URLSearchParams({
-        pageNo: currentPage.toString(),
-        pageSize: pageSize.toString(),
-      });
+    const queryParams = new URLSearchParams({
+      pageNo: currentPage.toString(),
+      pageSize: pageSize.toString(),
+    });
 
-      try {
-        const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/all/report?${queryParams}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch reports');
-        }
-        const data: V1AllReportGetResponse = await response.json();
-        setReports(data);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load reports');
-        setLoading(false);
+    try {
+      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/all/report?${queryParams}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch reports');
       }
-    };
-
-    fetchReports();
+      const data: V1AllReportGetResponse = await response.json();
+      setReports(data);
+      setLoading(false);
+    } catch (err) {
+      setError('Failed to load reports');
+      setLoading(false);
+    }
   }, [currentPage, pageSize]);
+  
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
 
   const handleApprove = async (_report:ReportInfo) => {
     try {
@@ -54,10 +54,7 @@ const Vote = () => {
       });
       if (response.ok) {
         alert('Report approved successfully!');
-        setReports((prev) => ({
-          ...prev!,
-          content: prev!.content.filter((report) => report.id !== _report.id),
-        }));
+        fetchReports();
       } else {
         alert('Failed to approve report.');
       }
@@ -76,10 +73,7 @@ const Vote = () => {
       });
       if (response.ok) {
         alert('Report rejected successfully!');
-        setReports((prev) => ({
-          ...prev!,
-          content: prev!.content.filter((report) => report.id !== _report.id),
-        }));
+        fetchReports();
       }
     } catch (err) {
       console.error('Error rejecting report:', err);
@@ -95,7 +89,7 @@ const Vote = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleMapViewÇlick = (placeId: string, e: MouseEvent) => {
+  const handleMapViewClick = (placeId: string, e: MouseEvent) => {
     e.stopPropagation();
     window.open(`https://map.kakao.com/link/map/${placeId}`, '_blank');
   };
@@ -136,7 +130,7 @@ const Vote = () => {
               <td className="py-2 px-4 border-b text-center align-middle" >{categoryList.find(f => f.value === report.category)?.label}</td>
               <td className="py-2 px-4 border-b text-center align-middle">{report.placeDesc}</td>
               <td className="py-2 px-4 border-b text-center align-middle">
-                <button className='bg-food-orange-300 opacity-80 p-2 rounded-2xl text-white hover:bg-food-orange-500' onClick={(e) => handleMapViewÇlick(report.placeId, e)}>지도보기</button>
+                <button className='bg-food-orange-300 opacity-80 p-2 rounded-2xl text-white hover:bg-food-orange-500' onClick={(e) => handleMapViewClick(report.placeId, e)}>지도보기</button>
               </td>
               <td className="py-2 px-4 border-b text-center align-middle">
                 <button
