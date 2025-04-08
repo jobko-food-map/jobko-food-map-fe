@@ -1,9 +1,10 @@
-import { useSessionStore } from '@app/store';
-import { categoryList, type ReportInfo } from '@app/types/api';
+import type { ReportInfo } from '@app/types/api';
+import type { ApiErrorResponse } from '@app/types/error';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useSessionStore } from '@app/store';
+import { categoryList } from '@app/types/api';
 import Loading from '../Loading';
-import type { ApiErrorResponse } from '@app/types/error';
 
 interface V1AllReportGetResponse {
   content: ReportInfo[];
@@ -18,10 +19,12 @@ const Vote = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageSize] = useState<number>(10);
+  const [loadingReportIds, setLoadingReportIds] = useState<{ [key: number]: { approve?: boolean; reject?: boolean } }>(
+    {},
+  );
   const navigate = useNavigate();
 
   const fetchReports = useCallback(async () => {
-    setLoading(true);
     setError(null);
 
     const queryParams = new URLSearchParams({
@@ -42,54 +45,92 @@ const Vote = () => {
       setLoading(false);
     }
   }, [currentPage, pageSize]);
-  
+
   useEffect(() => {
     if (!userInfo) {
       alert('로그인 후 사용해주세요.');
       window.location.href = '/';
     }
-  }
-  , [userInfo]);
+  }, [userInfo]);
 
   useEffect(() => {
     fetchReports();
   }, [fetchReports]);
 
-  const handleApprove = async (_report:ReportInfo) => {
+  // 투표 카운트 업데이트 헬퍼 함수
+  const updateReportCount = (reportId: number, isApprove: boolean) => {
+    if (!reports) return;
+
+    setReports(prevReports => {
+      if (!prevReports) return null;
+
+      return {
+        ...prevReports,
+        content: prevReports.content.map(report => {
+          if (report.id === reportId) {
+            return {
+              ...report,
+              approveCount: isApprove ? report.approveCount + 1 : report.approveCount,
+              rejectCount: !isApprove ? report.rejectCount + 1 : report.rejectCount,
+            };
+          }
+          return report;
+        }),
+      };
+    });
+  };
+
+  const handleApprove = async (_report: ReportInfo) => {
     try {
+      // 버튼 로딩 상태 활성화
+      setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], approve: true } }));
+
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: true }),
       });
+
       if (response.ok) {
-        fetchReports();
+        // 서버 응답이 성공한 경우에만 UI 업데이트
+        updateReportCount(_report.id, true);
       } else {
-        const errorData = await response.json() as ApiErrorResponse;
+        const errorData = (await response.json()) as ApiErrorResponse;
         alert(errorData.message);
       }
     } catch (err) {
       console.error('Error approving report:', err);
       alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
+    } finally {
+      // 버튼 로딩 상태 비활성화
+      setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], approve: false } }));
     }
   };
 
   const handleReject = async (_report: ReportInfo) => {
     try {
+      // 버튼 로딩 상태 활성화
+      setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], reject: true } }));
+
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
         method: 'POST',
         body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: false }),
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
       });
+
       if (response.ok) {
-        fetchReports();
-      } else{
-        const errorData = await response.json() as ApiErrorResponse;
+        // 서버 응답이 성공한 경우에만 UI 업데이트
+        updateReportCount(_report.id, false);
+      } else {
+        const errorData = (await response.json()) as ApiErrorResponse;
         alert(errorData.message);
       }
     } catch (err) {
       console.error('Error rejecting report:', err);
       alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
+    } finally {
+      // 버튼 로딩 상태 비활성화
+      setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], reject: false } }));
     }
   };
 
@@ -101,13 +142,13 @@ const Vote = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleMapViewClick = (placeId: string, e: MouseEvent) => {
+  const handleMapViewClick = (placeId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     window.open(`https://map.kakao.com/link/map/${placeId}`, '_blank');
   };
 
   if (loading) {
-    return <Loading title="투표하기 목록 로딩중..." />;
+    return <Loading title='투표하기 목록 로딩중...' />;
   }
 
   if (error) {
@@ -119,57 +160,74 @@ const Vote = () => {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">제보된 장소</h1>
+    <div className='p-4'>
+      <h1 className='text-2xl font-bold mb-4'>제보된 장소</h1>
       <h3>좋아요/별로에요 차이가 5개 이상이면 자동으로 목록에 등록됩니다.</h3>
-      <table className="min-w-full bg-white">
+      <table className='min-w-full bg-white'>
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">이름</th>
-            <th className="py-2 px-4 border-b">카테고리</th>
-            <th className="py-2 px-4 border-b">설명</th>
-            <th className="py-2 px-4 border-b">지도보기</th>
-            <th className="py-2 px-4 border-b">투표하기</th>
+            <th className='py-2 px-4 border-b'>이름</th>
+            <th className='py-2 px-4 border-b'>카테고리</th>
+            <th className='py-2 px-4 border-b'>설명</th>
+            <th className='py-2 px-4 border-b'>지도보기</th>
+            <th className='py-2 px-4 border-b'>투표하기</th>
           </tr>
         </thead>
         <tbody>
-          {reports.content.map((report) => (
+          {reports.content.map(report => (
             <tr
-              className="hover:bg-gray-100 cursor-pointer"
+              className='hover:bg-gray-100 cursor-pointer'
               key={report.id}
               // onClick={() => handleRowClick(report.id)}
             >
-              <td className="py-2 px-4 border-b text-center align-middle">{report.placeName}</td>
-              <td className="py-2 px-4 border-b text-center align-middle" >{categoryList.find(f => f.value === report.category)?.label}</td>
-              <td className="py-2 px-4 border-b text-center align-middle">{report.placeDesc}</td>
-              <td className="py-2 px-4 border-b text-center align-middle">
-                <button className='bg-food-orange-300 opacity-80 p-2 rounded-2xl text-white hover:bg-food-orange-500' onClick={(e) => handleMapViewClick(report.placeId, e)}>지도보기</button>
+              <td className='py-2 px-4 border-b text-center align-middle'>{report.placeName}</td>
+              <td className='py-2 px-4 border-b text-center align-middle'>
+                {categoryList.find(f => f.value === report.category)?.label}
               </td>
-              <td className="py-2 px-4 border-b text-center align-middle">
+              <td className='py-2 px-4 border-b text-center align-middle'>{report.placeDesc}</td>
+              <td className='py-2 px-4 border-b text-center align-middle'>
                 <button
-                  className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-600 mr-2"
-                  onClick={(e) => {
+                  className='bg-food-orange-300 opacity-80 p-2 rounded-2xl text-white hover:bg-food-orange-500'
+                  onClick={e => handleMapViewClick(report.placeId, e)}
+                >
+                  지도보기
+                </button>
+              </td>
+              <td className='py-2 px-4 border-b text-center align-middle'>
+                <button
+                  className='bg-green-400 text-white px-2 py-1 rounded hover:bg-green-600 mr-2 min-w-[100px]'
+                  disabled={loadingReportIds[report.id]?.approve}
+                  onClick={e => {
                     e.stopPropagation();
                     handleApprove(report);
                   }}
                 >
-                  좋아요: {report.approveCount}
+                  {loadingReportIds[report.id]?.approve ? (
+                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1'></div>
+                  ) : (
+                    '좋아요: ' + report.approveCount
+                  )}
                 </button>
                 <button
-                  className="bg-red-400 text-white px-2 py-1 rounded hover:bg-red-600"
-                  onClick={(e) => {
+                  className='bg-red-400 text-white px-2 py-1 rounded hover:bg-red-600 min-w-[100px]'
+                  disabled={loadingReportIds[report.id]?.reject}
+                  onClick={e => {
                     e.stopPropagation();
                     handleReject(report);
                   }}
                 >
-                  별로에요: {report.rejectCount}
+                  {loadingReportIds[report.id]?.reject ? (
+                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1'></div>
+                  ) : (
+                    '별로에요: ' + report.rejectCount
+                  )}
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="flex justify-center mt-4">
+      <div className='flex justify-center mt-4'>
         {Array.from({ length: reports.totalPages }, (_, index) => (
           <button
             key={index}
