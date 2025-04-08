@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { categoryList, type FoodCategory, type V1AllPlaceGetResponse } from '@app/types/api';
+import Loading from '../Loading';
 
 function RejectFoodList() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();
@@ -67,7 +68,7 @@ function RejectFoodList() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading title='목록 불러오는 중 입니다.' />;
   }
 
   if (error) {

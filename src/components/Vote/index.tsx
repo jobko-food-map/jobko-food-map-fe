@@ -2,6 +2,7 @@ import { useSessionStore } from '@app/store';
 import { categoryList, type ReportInfo } from '@app/types/api';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import Loading from '../Loading';
 
 interface V1AllReportGetResponse {
   content: ReportInfo[];
@@ -95,7 +96,7 @@ const Vote = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading title="투표하기 목록 로딩중..." />;
   }
 
   if (error) {

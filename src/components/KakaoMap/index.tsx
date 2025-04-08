@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import type { PlaceInfo, V1AllPlaceGetResponse } from '@app/types/api';
 import { categoryList, type FoodCategory } from '@app/types/api/enum';
+import Loading from '../Loading';
 
 function KakaoMap() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();
@@ -72,7 +73,7 @@ function KakaoMap() {
       : places?.content.filter((place) => place.category === selectedCategory);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading title="점메추 지도 로딩중..." />;
   }
 
   if (error) {

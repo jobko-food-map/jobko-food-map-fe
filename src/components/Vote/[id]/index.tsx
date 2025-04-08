@@ -1,3 +1,4 @@
+import Loading from '@app/components/Loading';
 import { categoryList, type ReportInfo } from '@app/types/api';
 import React, { useEffect, useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
@@ -64,7 +65,7 @@ const VoteDetail = () => {
   };
 
   if (loading) {
-    return <div className="p-4">Loading...</div>;
+    return <Loading title='상세화면 로딩중...' />;
   }
 
   if (error) {
