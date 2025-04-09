@@ -3,9 +3,12 @@ import { clientEnv } from '@app/configs/env';
 import { getUserInfoByAccessToken } from '@app/lib/auth';
 import { useSessionStore } from '@app/store';
 import { postUser } from '../api/user';
+import { Link } from 'react-router';
+import { paths } from '@app/configs/paths';
 
 const CustomButton = () => {
   const { updateState, userInfo } = useSessionStore();
+
 
   const saveAccessToken = (accessToken: string) => {
     localStorage.setItem('accessToken', accessToken);
@@ -28,9 +31,9 @@ const CustomButton = () => {
     },
     onError: error => console.log('error', error),
   });
-  return userInfo ? (
-    <span className='text-white p-2 rounded'>{userInfo.userName}님 오늘 점심 뭐 드시겠어요?</span>
-  ) : (
+  return userInfo ? (<Link className='text-white p-2 rounded' to={paths.randomFood.getHref()}>
+    {userInfo.userName}님 오늘 점심 뭐 드시겠어요?
+  </Link>) :(
     <button
       className='bg-white text-gray-800 p-2 rounded hover:bg-gray-200'
       type='button'

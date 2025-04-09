@@ -36,11 +36,6 @@ const LNB = () => {
             탈락한 음식 목록
           </BaseLink>
         </li>
-        <li>
-          <BaseLink className='text-gray-700 hover:text-gray-900' to={paths.randomFood.getHref()}>
-            랜덤 음식 추천
-          </BaseLink>
-        </li>
       </ul>
     </div>
   );
