@@ -126,13 +126,13 @@ function FoodList() {
             </select>
           )}
         </div>
-        <table className='min-w-full bg-white'>
+        <table className='min-w-full bg-white table-fixed'>
           <thead>
             <tr>
-              <th className='py-2 px-4 border-b'>이름</th>
-              <th className='py-2 px-4 border-b'>카테고리</th>
-              <th className='py-2 px-4 border-b'>설명</th>
-              <th className='py-2 px-4 border-b'>지도보기</th>
+              <th className='py-2 px-4 border-b w-1/4'>이름</th>
+              <th className='py-2 px-4 border-b w-1/6'>카테고리</th>
+              <th className='py-2 px-4 border-b w-1/4'>설명</th>
+              <th className='py-2 px-4 border-b w-1/6'>지도보기</th>
             </tr>
           </thead>
           <tbody>
