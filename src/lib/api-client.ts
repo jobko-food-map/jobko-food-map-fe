@@ -1,7 +1,7 @@
+import { clientEnv } from '@app/configs/env';
 import type { ApiErrorResponse } from '@app/types/error';
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
-import { clientEnv } from '@app/configs/env';
 
 function createAxios(requestConfig: AxiosRequestConfig): AxiosInstance {
   const axiosInstance = axios.create({

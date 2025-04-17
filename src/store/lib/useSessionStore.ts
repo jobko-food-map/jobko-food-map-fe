@@ -1,7 +1,7 @@
+import { LOCAL_STORAGE_KEY } from '@app/constants';
 import type { UserInfo } from '@app/types/api/schemas';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { LOCAL_STORAGE_KEY } from '@app/constants';
 
 export interface ChatSession {
   userInfo?: UserInfo;

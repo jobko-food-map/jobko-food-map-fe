@@ -1,9 +1,11 @@
-import type { ReportInfo } from '@app/types/api';
-import type { ApiErrorResponse } from '@app/types/error';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import { useSessionStore } from '@app/store';
+import type { ReportInfo } from '@app/types/api';
 import { categoryList } from '@app/types/api';
+import type { ApiErrorResponse } from '@app/types/error';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import BaseButton from '../BaseButton';
 import Loading from '../Loading';
 
 interface V1AllReportGetResponse {
@@ -85,7 +87,7 @@ const Vote = () => {
       // 버튼 로딩 상태 활성화
       setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], approve: true } }));
 
-      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
+      const response = await fetch('https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: true }),
@@ -112,7 +114,7 @@ const Vote = () => {
       // 버튼 로딩 상태 활성화
       setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], reject: true } }));
 
-      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote`, {
+      const response = await fetch('https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote', {
         method: 'POST',
         body: JSON.stringify({ userId: userInfo?.userId, reportId: _report.id, isApprove: false }),
         headers: { 'Content-Type': 'application/json' },
@@ -166,11 +168,11 @@ const Vote = () => {
       <table className='min-w-full bg-white table-fixed'>
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b w-1/4">이름</th>
-            <th className="py-2 px-4 border-b w-1/6">카테고리</th>
-            <th className="py-2 px-4 border-b w-1/4">설명</th>
-            <th className="py-2 px-4 border-b w-1/6">지도보기</th>
-            <th className="py-2 px-4 border-b w-1/4">투표하기</th>
+            <th className='py-2 px-4 border-b w-1/4'>이름</th>
+            <th className='py-2 px-4 border-b w-1/6'>카테고리</th>
+            <th className='py-2 px-4 border-b w-1/4'>설명</th>
+            <th className='py-2 px-4 border-b w-1/6'>지도보기</th>
+            <th className='py-2 px-4 border-b w-1/4'>투표하기</th>
           </tr>
         </thead>
         <tbody>
@@ -186,15 +188,15 @@ const Vote = () => {
               </td>
               <td className='py-2 px-4 border-b text-center align-middle'>{report.placeDesc}</td>
               <td className='py-2 px-4 border-b text-center align-middle'>
-                <button
+                <BaseButton
                   className='bg-food-orange-300 opacity-80 p-2 rounded-2xl text-white hover:bg-food-orange-500'
                   onClick={e => handleMapViewClick(report.placeId, e)}
                 >
                   지도보기
-                </button>
+                </BaseButton>
               </td>
               <td className='py-2 px-4 border-b text-center align-middle'>
-                <button
+                <BaseButton
                   className='bg-green-400 text-white px-2 py-1 rounded hover:bg-green-600 mr-2 min-w-[100px]'
                   disabled={loadingReportIds[report.id]?.approve}
                   onClick={e => {
@@ -203,12 +205,12 @@ const Vote = () => {
                   }}
                 >
                   {loadingReportIds[report.id]?.approve ? (
-                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1'></div>
+                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1' />
                   ) : (
-                    '좋아요: ' + report.approveCount
+                    `좋아요: ${report.approveCount}`
                   )}
-                </button>
-                <button
+                </BaseButton>
+                <BaseButton
                   className='bg-red-400 text-white px-2 py-1 rounded hover:bg-red-600 min-w-[100px]'
                   disabled={loadingReportIds[report.id]?.reject}
                   onClick={e => {
@@ -217,11 +219,11 @@ const Vote = () => {
                   }}
                 >
                   {loadingReportIds[report.id]?.reject ? (
-                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1'></div>
+                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1' />
                   ) : (
-                    '별로에요: ' + report.rejectCount
+                    `별로에요: ${report.rejectCount}`
                   )}
-                </button>
+                </BaseButton>
               </td>
             </tr>
           ))}
@@ -229,15 +231,15 @@ const Vote = () => {
       </table>
       <div className='flex justify-center mt-4'>
         {Array.from({ length: reports.totalPages }, (_, index) => (
-          <button
-            key={index}
+          <BaseButton
             className={`px-4 py-2 mx-1 border rounded ${
               currentPage === index ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
             }`}
+            key={index}
             onClick={() => handlePageChange(index)}
           >
             {index + 1}
-          </button>
+          </BaseButton>
         ))}
       </div>
     </div>

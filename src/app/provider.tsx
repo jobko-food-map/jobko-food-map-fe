@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { clientEnv } from '@app/configs/env';
+import { queryConfig } from '@app/lib/react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { clientEnv } from '@app/configs/env';
-import { queryConfig } from '@app/lib/react-query';
+import * as React from 'react';
 
 type AppProviderProps = {
   children: React.ReactNode;

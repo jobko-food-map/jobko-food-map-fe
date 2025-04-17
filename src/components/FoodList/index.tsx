@@ -1,6 +1,8 @@
 import type { FoodCategory, V1AllPlaceGetResponse } from '@app/types/api';
-import React, { useEffect, useState } from 'react';
 import { categoryList } from '@app/types/api';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import BaseButton from '../BaseButton';
 import Loading from '../Loading';
 
 function FoodList() {
@@ -86,9 +88,9 @@ function FoodList() {
               <input
                 checked={searchMethod === 'name'}
                 name='searchMethod'
+                onChange={handleSearchMethodChange}
                 type='radio'
                 value='name'
-                onChange={handleSearchMethodChange}
               />
               이름으로 검색
             </label>
@@ -96,9 +98,9 @@ function FoodList() {
               <input
                 checked={searchMethod === 'category'}
                 name='searchMethod'
+                onChange={handleSearchMethodChange}
                 type='radio'
                 value='category'
-                onChange={handleSearchMethodChange}
               />
               카테고리로 검색
             </label>
@@ -106,17 +108,17 @@ function FoodList() {
           {searchMethod === 'name' && (
             <input
               className='p-2 border border-gray-300 rounded'
+              onChange={handleSearchChange}
               placeholder='Search by name'
               type='text'
               value={searchQuery}
-              onChange={handleSearchChange}
             />
           )}
           {searchMethod === 'category' && (
             <select
               className='p-2 border border-gray-300 rounded'
-              value={selectedCategory}
               onChange={handleCategoryChange}
+              value={selectedCategory}
             >
               {categoryList.map(category => (
                 <option key={category.value} value={category.value}>
@@ -144,12 +146,12 @@ function FoodList() {
                 </td>
                 <td className='py-2 px-4 border-b txt-center'>{place.placeDesc}</td>
                 <td className='py-2 px-4 border-b txt-center'>
-                  <button
+                  <BaseButton
                     className='bg-food-orange-300 hover:bg-food-orange-500 opacity-80 p-2 rounded-2xl text-white'
                     onClick={() => handleMapViewClick(place.placeId)}
                   >
                     지도보기
-                  </button>
+                  </BaseButton>
                 </td>
               </tr>
             ))}

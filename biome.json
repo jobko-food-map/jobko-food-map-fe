@@ -1,0 +1,174 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "files": {
+    "ignoreUnknown": false,
+    "include": ["**/*.html", "**/*.css", "**/*.js", "**/*.mjs", "**/*.ts", "**/*.tsx", "**/*.json"],
+    "ignore": [
+      ".gitignore",
+      "**/dist",
+      "**/build",
+      "**/node_modules",
+      "**/coverage",
+      "**/env",
+      "**/.next",
+      "**/.turbo",
+      "**/*.properties",
+      "**/*.tsconfig.tsbuildinfo",
+      "**/storybook-static",
+      "**/.react-router"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "formatWithErrors": true,
+    "lineWidth": 120
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "assists": {
+    "actions": {
+      "source": {
+        "sortJsxProps": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "noAriaHiddenOnFocusable": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noAutofocus": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noDistractingElements": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noHeaderScope": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noInteractiveElementToNoninteractiveRole": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noNoninteractiveElementToInteractiveRole": "off",
+        "noNoninteractiveTabindex": "off",
+        "noPositiveTabindex": "off",
+        "useAriaPropsForRole": "off",
+        "useValidAriaRole": "off",
+        "useGenericFontNames": "off",
+        "useKeyWithClickEvents": "off",
+        "useKeyWithMouseEvents": "off",
+        "useValidAriaValues": "info",
+        "noLabelWithoutControl": "off",
+        "noSvgWithoutTitle": "off",
+        "useSemanticElements": "info"
+      },
+      "correctness": {
+        "noUnusedFunctionParameters": "warn",
+        "noUnusedVariables": "warn",
+        "noUnusedImports": "error",
+        "useExhaustiveDependencies": "error"
+      },
+      "performance": {
+        "noAccumulatingSpread": "info"
+      },
+      "style": {
+        "useExponentiationOperator": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "useSelfClosingElements": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "useSingleVarDeclarator": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noUnusedTemplateLiteral": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "useNodejsImportProtocol": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "useTemplate": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noUselessElse": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noVar": {
+          "fix": "safe",
+          "level": "error"
+        }
+      },
+      "complexity": {
+        "useLiteralKeys": "off",
+        "noExtraBooleanCast": "off",
+        "noUselessFragments": {
+          "fix": "safe",
+          "level": "error"
+        }
+      },
+      "suspicious": {
+        "noShadowRestrictedNames": "info",
+        "noExplicitAny": "warn",
+        "noArrayIndexKey": "info",
+        "noGlobalIsNan": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noGlobalIsFinite": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noApproximativeNumericConstant": {
+          "fix": "safe",
+          "level": "error"
+        },
+        "noCommentText": {
+          "fix": "safe",
+          "level": "error"
+        }
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "info"
+      }
+    }
+  },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "arrowParentheses": "asNeeded"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "single"
+    }
+  }
+}
