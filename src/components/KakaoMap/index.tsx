@@ -1,8 +1,9 @@
 import type { PlaceInfo, V1AllPlaceGetResponse } from '@app/types/api';
 import type { FoodCategory } from '@app/types/api/enum';
+import { categoryList } from '@app/types/api/enum';
 import React, { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
-import { categoryList } from '@app/types/api/enum';
+import BaseButton from '../BaseButton';
 import Loading from '../Loading';
 
 function KakaoMap() {
@@ -84,24 +85,24 @@ function KakaoMap() {
       <div className='relative'>
         <div className='absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-4'>
           {categoryList.map(category => (
-            <button
-              key={category.value}
+            <BaseButton
               className={`bg-food-orange-300 text-white px-4 py-2 rounded-2xl hover:bg-food-orange-500 ${
                 selectedCategory === category.value ? 'bg-food-orange-500' : ''
               }`}
+              key={category.value}
               onClick={() => handleCategoryChange(category.value)}
             >
               {category.label}
-            </button>
+            </BaseButton>
           ))}
         </div>
         <KaKaoMap
-          id='map'
-          level={3}
           center={{
             lat: 37.4941971,
             lng: 127.0144358,
           }}
+          id='map'
+          level={3}
           style={{
             width: '100%',
             height: '700px',
@@ -117,7 +118,6 @@ function KakaoMap() {
                 </CustomOverlayMap>
               )}
               <MapMarker
-                title={data.placeName}
                 image={{
                   src: '/imgs/mark.png', // Path to the custom marker image
                   size: {
@@ -125,13 +125,14 @@ function KakaoMap() {
                     height: 46,
                   },
                 }}
+                onClick={marker => handleMarkerClick(data, marker)}
+                onMouseOut={handleMouseOut}
+                onMouseOver={() => handleMouseOver(data.placeId)}
                 position={{
                   lat: data.lat,
                   lng: data.lng,
                 }}
-                onClick={marker => handleMarkerClick(data, marker)}
-                onMouseOut={handleMouseOut}
-                onMouseOver={() => handleMouseOver(data.placeId)}
+                title={data.placeName}
               />
             </React.Fragment>
           ))}
@@ -141,9 +142,9 @@ function KakaoMap() {
                 className='absolute z-20 bg-white p-4 border border-gray-300 rounded shadow-lg'
                 style={{ top: '20%', left: '70%' }}
               >
-                <button className='absolute top-1 right-3 text-gray-500' onClick={() => setSelectedPlace(null)}>
+                <BaseButton className='absolute top-1 right-3 text-gray-500' onClick={() => setSelectedPlace(null)}>
                   &times;
-                </button>
+                </BaseButton>
                 <h2 className='text-lg font-bold'>{selectedPlace.placeName}</h2>
                 <p className='mb-3'>{selectedPlace.placeDesc}</p>
                 <a

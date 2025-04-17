@@ -1,6 +1,7 @@
 import type { FoodCategory, V1AllPlaceGetResponse } from '@app/types/api';
-import React, { useEffect, useState } from 'react';
 import { categoryList } from '@app/types/api';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 
 function RejectFoodList() {
@@ -82,9 +83,9 @@ function RejectFoodList() {
               <input
                 checked={searchMethod === 'name'}
                 name='searchMethod'
+                onChange={handleSearchMethodChange}
                 type='radio'
                 value='name'
-                onChange={handleSearchMethodChange}
               />
               이름으로 검색
             </label>
@@ -92,9 +93,9 @@ function RejectFoodList() {
               <input
                 checked={searchMethod === 'category'}
                 name='searchMethod'
+                onChange={handleSearchMethodChange}
                 type='radio'
                 value='category'
-                onChange={handleSearchMethodChange}
               />
               카테고리로 검색
             </label>
@@ -102,17 +103,17 @@ function RejectFoodList() {
           {searchMethod === 'name' && (
             <input
               className='p-2 border border-gray-300 rounded'
+              onChange={handleSearchChange}
               placeholder='Search by name'
               type='text'
               value={searchQuery}
-              onChange={handleSearchChange}
             />
           )}
           {searchMethod === 'category' && (
             <select
               className='p-2 border border-gray-300 rounded'
-              value={selectedCategory}
               onChange={handleCategoryChange}
+              value={selectedCategory}
             >
               {categoryList.map(category => (
                 <option key={category.value} value={category.value}>

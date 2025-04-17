@@ -6,7 +6,7 @@ const NotFoundRoute = () => {
     <div>
       <h1>404 - Not Found</h1>
       <p>Sorry, the page you are looking for does not exist.</p>
-      <BaseLink to={paths.root.getHref()} replace>
+      <BaseLink replace to={paths.root.getHref()}>
         Go to Home
       </BaseLink>
     </div>

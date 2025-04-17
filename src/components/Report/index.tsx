@@ -1,8 +1,9 @@
-import type { V1PlacePostRequest } from '@app/types/api';
-import React, { useEffect, useState } from 'react';
-import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import { useSessionStore } from '@app/store';
+import type { V1PlacePostRequest } from '@app/types/api';
 import { categoryList } from '@app/types/api';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 
 function Report() {
   const [place, setPlace] = useState<V1PlacePostRequest>({
@@ -48,12 +49,12 @@ function Report() {
     ps.keywordSearch(placeName, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const { id, x, y } = result[0];
-        setCoordinates({ lat: parseFloat(y), lng: parseFloat(x) });
+        setCoordinates({ lat: Number.parseFloat(y), lng: Number.parseFloat(x) });
         setPlace({
           ...place,
           placeId: id,
-          lat: parseFloat(y),
-          lng: parseFloat(x),
+          lat: Number.parseFloat(y),
+          lng: Number.parseFloat(x),
         });
         setLookupDone(true); // Set lookup status to true
       } else {
@@ -114,15 +115,15 @@ function Report() {
               className='mt-1 block w-full p-2 border border-gray-300 rounded'
               maxLength={20}
               name='placeName'
+              onChange={handleUrlChange}
+              required
               type='text'
               value={placeName}
-              required
-              onChange={handleUrlChange}
             />
             <button
               className='bg-food-orange-300 text-white p-2 rounded hover:bg-food-orange-500 mt-2'
-              type='button'
               onClick={handleAddressLookup}
+              type='button'
             >
               조회하기
             </button>
@@ -132,9 +133,9 @@ function Report() {
             <select
               className='mt-1 block w-full p-2 border border-gray-300 rounded'
               name='category'
-              value={place.category}
-              required
               onChange={handleChange}
+              required
+              value={place.category}
             >
               {categoryList
                 .filter(f => f.value !== 'ALL')
@@ -151,9 +152,9 @@ function Report() {
               className='mt-1 block w-full p-2 border border-gray-300 rounded'
               maxLength={30}
               name='placeDesc'
-              value={place.placeDesc}
-              required
               onChange={handleChange}
+              required
+              value={place.placeDesc}
             />
           </div>
           <button

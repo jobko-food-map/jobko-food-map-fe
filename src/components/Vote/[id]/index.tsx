@@ -1,10 +1,11 @@
-import type { ReportInfo } from '@app/types/api';
-import React, { useEffect, useState } from 'react';
-import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
-import { useParams } from 'react-router';
+import BaseButton from '@app/components/BaseButton';
 import Loading from '@app/components/Loading';
 import { useSessionStore } from '@app/store/lib/useSessionStore';
+import type { ReportInfo } from '@app/types/api';
 import { categoryList } from '@app/types/api';
+import { useEffect, useState } from 'react';
+import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
+import { useParams } from 'react-router';
 
 const VoteDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +34,7 @@ const VoteDetail = () => {
         const data = await response.json();
         setReport(data);
         setLoading(false);
-      } catch (err) {
+      } catch {
         setError('Failed to load report');
         setLoading(false);
       }
@@ -96,12 +97,12 @@ const VoteDetail = () => {
         </KaKaoMap>
       </div>
       <div className='bottom-4 flex space-x-2'>
-        <button className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600' onClick={handleApprove}>
+        <BaseButton className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600' onClick={handleApprove}>
           좋아요
-        </button>
-        <button className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600' onClick={handleReject}>
+        </BaseButton>
+        <BaseButton className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600' onClick={handleReject}>
           별로에요
-        </button>
+        </BaseButton>
       </div>
     </div>
   );
