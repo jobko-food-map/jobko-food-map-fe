@@ -109,82 +109,109 @@ function Report() {
   };
 
   return (
-    <div className='p-4 flex'>
-      <div className='w-1/2 pr-4'>
-        <h1 className='text-2xl font-bold mb-4'>새로운 장소 제보하기</h1>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-4'>
-            <label className='block text-gray-700'>장소명</label>
-            <input
-              className='mt-1 block w-full p-2 border border-gray-300 rounded'
-              maxLength={20}
-              name='placeName'
-              onChange={handleUrlChange}
-              required
-              type='text'
-              value={placeName}
-            />
-            <button
-              className='bg-food-orange-300 text-white p-2 rounded hover:bg-food-orange-500 mt-2'
-              onClick={handleAddressLookup}
-              type='button'
-            >
-              조회하기
-            </button>
+    <div className='min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto'>
+        <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
+          <div className='p-6 sm:p-8'>
+            <h1 className='text-3xl font-bold text-gray-900 mb-8'>새로운 장소 제보하기</h1>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+              <div>
+                <form className='space-y-6' onSubmit={handleSubmit}>
+                  <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>장소명</label>
+                    <div className='flex gap-2'>
+                      <input
+                        className='flex-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-food-orange-300 focus:border-food-orange-300'
+                        maxLength={20}
+                        name='placeName'
+                        onChange={handleUrlChange}
+                        placeholder='장소명을 입력해주세요'
+                        required
+                        type='text'
+                        value={placeName}
+                      />
+                      <button
+                        className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-food-orange-300 hover:bg-food-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-food-orange-300'
+                        onClick={handleAddressLookup}
+                        type='button'
+                      >
+                        조회하기
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>카테고리</label>
+                    <div className='relative'>
+                      <select
+                        className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-food-orange-300 focus:border-food-orange-300 appearance-none'
+                        name='category'
+                        onChange={handleChange}
+                        required
+                        value={place.category}
+                      >
+                        {categoryList
+                          .filter(f => f.value !== 'ALL')
+                          .map(category => (
+                            <option key={category.value} value={category.value}>
+                              {category.value === 'KOREAN' && '🍚 '}
+                              {category.value === 'CHINESE' && '🥢 '}
+                              {category.value === 'JAPANESE' && '🍣 '}
+                              {category.value === 'WESTERN' && '🍝 '}
+                              {category.value === 'ASIAN' && '🍜 '}
+                              {category.value === 'DESSERT' && '🍰 '}
+                              {category.label}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className='block text-sm font-medium text-gray-700 mb-2'>설명</label>
+                    <textarea
+                      className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-food-orange-300 focus:border-food-orange-300'
+                      maxLength={30}
+                      name='placeDesc'
+                      onChange={handleChange}
+                      placeholder='장소에 대한 설명을 입력해주세요'
+                      required
+                      rows={3}
+                      value={place.placeDesc}
+                    />
+                  </div>
+
+                  <button
+                    className='w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-food-orange-300 hover:bg-food-orange-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-food-orange-300 disabled:opacity-50 disabled:cursor-not-allowed'
+                    disabled={!lookupDone}
+                    type='submit'
+                  >
+                    제출하기
+                  </button>
+                </form>
+              </div>
+
+              {coordinates && (
+                <div className='bg-gray-50 rounded-lg p-4'>
+                  <h2 className='text-lg font-medium text-gray-900 mb-4'>위치 미리보기</h2>
+                  <div className='rounded-lg overflow-hidden shadow-md'>
+                    <KaKaoMap
+                      center={coordinates}
+                      level={3}
+                      style={{
+                        width: '100%',
+                        height: '400px',
+                      }}
+                    >
+                      <MapMarker position={coordinates} />
+                    </KaKaoMap>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-          <div className='mb-4'>
-            <label className='block text-gray-700'>카테고리</label>
-            <select
-              className='mt-1 block w-full p-2 border border-gray-300 rounded'
-              name='category'
-              onChange={handleChange}
-              required
-              value={place.category}
-            >
-              {categoryList
-                .filter(f => f.value !== 'ALL')
-                .map(category => (
-                  <option key={category.value} value={category.value}>
-                    {category.label}
-                  </option>
-                ))}
-            </select>
-          </div>
-          <div className='mb-4'>
-            <label className='block text-gray-700'>설명</label>
-            <textarea
-              className='mt-1 block w-full p-2 border border-gray-300 rounded'
-              maxLength={30}
-              name='placeDesc'
-              onChange={handleChange}
-              required
-              value={place.placeDesc}
-            />
-          </div>
-          <button
-            className='bg-food-orange-300 text-white p-2 rounded hover:bg-food-orange-500'
-            disabled={!lookupDone} // Disable submit button if lookup is not done
-            type='submit'
-          >
-            제출하기
-          </button>
-        </form>
-      </div>
-      {coordinates && (
-        <div className='w-1/2 pl-4'>
-          <h2 className='text-xl font-bold mb-2'>Preview</h2>
-          <KaKaoMap
-            center={coordinates}
-            level={3}
-            style={{
-              width: '100%',
-              height: '400px',
-            }}
-          >
-            <MapMarker position={coordinates} />
-          </KaKaoMap>
         </div>
-      )}
+      </div>
     </div>
   );
 }
