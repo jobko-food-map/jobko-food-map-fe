@@ -4,6 +4,7 @@ import { useSessionStore } from '@app/store/lib/useSessionStore';
 import type { ReportInfo } from '@app/types/api';
 import { categoryList } from '@app/types/api';
 import { useEffect, useRef, useState } from 'react';
+import { IoArrowBack } from 'react-icons/io5';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import { useNavigate, useParams } from 'react-router';
 
@@ -86,26 +87,71 @@ const VoteDetail = () => {
   }
 
   return (
-    <div className='p-4 relative'>
-      <h1 className='text-2xl font-bold mb-4'>투표 상세</h1>
-      <div className='mb-4'>
-        <h2 className='text-xl font-bold'>{report.placeName}</h2>
-        <p className='text-gray-700'>설명: {report.placeDesc}</p>
-        <p className='text-gray-700'>카테고리: {categoryList.find(f => f.value === report.category)?.label}</p>
-      </div>
-      <div className='mb-4'>
-        <h2>위치</h2>
-        <KaKaoMap center={{ lat: report.lat, lng: report.lng }} level={3} style={{ width: '100%', height: '400px' }}>
-          <MapMarker position={{ lat: report.lat, lng: report.lng }} title={report.placeName} />
-        </KaKaoMap>
-      </div>
-      <div className='bottom-4 flex space-x-2'>
-        <BaseButton className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600' onClick={handleApprove}>
-          좋아요
-        </BaseButton>
-        <BaseButton className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600' onClick={handleReject}>
-          별로에요
-        </BaseButton>
+    <div className='min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-4xl mx-auto'>
+        <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
+          <div className='p-6 sm:p-8'>
+            <div className='flex items-center gap-4 mb-6'>
+              <BaseButton
+                className='p-2 rounded-full hover:bg-gray-100 transition-colors duration-200'
+                onClick={() => navigate(-1)}
+              >
+                <IoArrowBack className='w-6 h-6 text-gray-600' />
+              </BaseButton>
+              <h1 className='text-3xl font-bold text-gray-900'>투표 상세</h1>
+            </div>
+
+            <div className='space-y-6'>
+              <div className='bg-gray-50 rounded-xl p-6'>
+                <div className='flex items-center gap-3 mb-4'>
+                  <h2 className='text-2xl font-semibold text-gray-900'>{report.placeName}</h2>
+                  <span className='text-xl'>
+                    {report.category === 'KOREAN' && '🍚'}
+                    {report.category === 'CHINESE' && '🥢'}
+                    {report.category === 'JAPANESE' && '🍣'}
+                    {report.category === 'WESTERN' && '🍝'}
+                    {report.category === 'ASIAN' && '🍜'}
+                    {report.category === 'DESSERT' && '🍰'}
+                  </span>
+                </div>
+                <div className='space-y-2'>
+                  <p className='text-gray-600'>{report.placeDesc}</p>
+                  <p className='text-sm text-gray-500'>
+                    카테고리: {categoryList.find(f => f.value === report.category)?.label}
+                  </p>
+                </div>
+              </div>
+
+              <div className='bg-gray-50 rounded-xl overflow-hidden'>
+                <h3 className='text-lg font-semibold text-gray-900 p-4'>위치</h3>
+                <KaKaoMap
+                  center={{ lat: report.lat, lng: report.lng }}
+                  level={3}
+                  style={{ width: '100%', height: '400px' }}
+                >
+                  <MapMarker position={{ lat: report.lat, lng: report.lng }} title={report.placeName} />
+                </KaKaoMap>
+              </div>
+
+              <div className='flex flex-col sm:flex-row gap-4 justify-center mt-8'>
+                <BaseButton
+                  className='flex-1 bg-green-400 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors duration-200 flex items-center justify-center gap-2'
+                  onClick={handleApprove}
+                >
+                  <span className='text-lg'>👍</span>
+                  <span>좋아요</span>
+                </BaseButton>
+                <BaseButton
+                  className='flex-1 bg-red-400 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors duration-200 flex items-center justify-center gap-2'
+                  onClick={handleReject}
+                >
+                  <span className='text-lg'>👎</span>
+                  <span>별로에요</span>
+                </BaseButton>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
