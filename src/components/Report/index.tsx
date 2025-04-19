@@ -2,7 +2,7 @@ import { useSessionStore } from '@app/store';
 import type { V1PlacePostRequest } from '@app/types/api';
 import { categoryList } from '@app/types/api';
 import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import { useNavigate } from 'react-router';
 
@@ -15,21 +15,15 @@ function Report() {
     placeDesc: '',
     category: 'KOREAN',
   });
-  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>({
+    lat: 37.4936,
+    lng: 127.0141,
+  });
   const [placeName, setPlaceName] = useState<string>('');
   const [lookupDone, setLookupDone] = useState<boolean>(false);
   const { userInfo } = useSessionStore();
-  const alertShown = useRef(false);
-
-  // 로그인한 유저 정보가 없으면 alert 으로 알려주고 메인으로 팅겨내기
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!userInfo && !alertShown.current) {
-      alertShown.current = true;
-      alert('로그인 후 사용해주세요.');
-      navigate('/');
-    }
-  }, [userInfo, navigate]);
+  const alertShown = useRef(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -70,6 +64,11 @@ function Report() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!userInfo) {
+      alert('로그인 후 제보해주세요.');
+      return;
+    }
 
     // Check for missing fields
     if (!place.placeName || !place.lat || !place.lng || !place.placeId || !place.placeDesc || !place.category) {
