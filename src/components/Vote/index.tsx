@@ -49,14 +49,6 @@ const Vote = () => {
   }, [currentPage, pageSize]);
 
   useEffect(() => {
-    if (!userInfo && !alertShown.current) {
-      alertShown.current = true;
-      alert('로그인 후 사용해주세요.');
-      navigate('/');
-    }
-  }, [userInfo, navigate]);
-
-  useEffect(() => {
     fetchReports();
   }, [fetchReports]);
 
@@ -84,6 +76,11 @@ const Vote = () => {
   };
 
   const handleApprove = async (_report: ReportInfo) => {
+    if (!userInfo) {
+      alert('로그인 후 투표해주세요.');
+      return;
+    }
+
     try {
       // 버튼 로딩 상태 활성화
       setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], approve: true } }));
@@ -111,6 +108,11 @@ const Vote = () => {
   };
 
   const handleReject = async (_report: ReportInfo) => {
+    if (!userInfo) {
+      alert('로그인 후 투표해주세요.');
+      return;
+    }
+
     try {
       // 버튼 로딩 상태 활성화
       setLoadingReportIds(prev => ({ ...prev, [_report.id]: { ...prev[_report.id], reject: true } }));

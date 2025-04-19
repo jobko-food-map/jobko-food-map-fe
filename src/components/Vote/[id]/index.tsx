@@ -18,14 +18,6 @@ const VoteDetail = () => {
   const alertShown = useRef(false);
 
   useEffect(() => {
-    if (!userInfo && !alertShown.current) {
-      alertShown.current = true;
-      alert('로그인 후 사용해주세요.');
-      navigate('/');
-    }
-  }, [userInfo, navigate]);
-
-  useEffect(() => {
     const fetchReport = async () => {
       setLoading(true);
       setError(null);
@@ -48,6 +40,11 @@ const VoteDetail = () => {
   }, [id]);
 
   const handleApprove = async () => {
+    if (!userInfo) {
+      alert('로그인 후 투표해주세요.');
+      return;
+    }
+
     try {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}/approve`, {
         method: 'POST',
@@ -59,6 +56,11 @@ const VoteDetail = () => {
   };
 
   const handleReject = async () => {
+    if (!userInfo) {
+      alert('로그인 후 투표해주세요.');
+      return;
+    }
+
     try {
       const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}/reject`, {
         method: 'POST',
