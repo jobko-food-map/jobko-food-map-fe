@@ -44,7 +44,7 @@ function RejectFoodList() {
     setSearchQuery(e.target.value);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCategory(e.target.value as FoodCategory);
   };
 
@@ -75,53 +75,99 @@ function RejectFoodList() {
 
   return (
     places && (
-      <div className='p-4'>
-        <h1 className='text-2xl font-bold mb-4'>탈락한 음식점들...</h1>
-        <div className='flex mb-4 space-x-4'>
-          <div className='flex items-center space-x-2'>
-            <label>
-              <input
-                checked={searchMethod === 'name'}
-                name='searchMethod'
-                onChange={handleSearchMethodChange}
-                type='radio'
-                value='name'
-              />
-              이름으로 검색
-            </label>
-            <label>
-              <input
-                checked={searchMethod === 'category'}
-                name='searchMethod'
-                onChange={handleSearchMethodChange}
-                type='radio'
-                value='category'
-              />
-              카테고리로 검색
-            </label>
+      <div className='p-6 max-w-7xl mx-auto'>
+        <div className='mb-8'>
+          <h1 className='text-3xl font-bold text-gray-800 mb-2'>탈락한 음식점</h1>
+          <p className='text-gray-600'>별로에요 투표로 인해 아쉽게 빛을 보지 못한 음식점 입니다</p>
+          <p className='text-gray-600'>누군가에게는 맛집입니다</p>
+        </div>
+
+        <div className='bg-white rounded-lg shadow-md p-6 mb-6'>
+          <div className='flex flex-col lg:flex-row lg:items-center gap-4 mb-4 min-h-[120px] lg:h-[120px]'>
+            <div className='flex space-x-6'>
+              <label className='relative flex items-center cursor-pointer group'>
+                <input
+                  checked={searchMethod === 'name'}
+                  className='sr-only peer'
+                  name='searchMethod'
+                  onChange={handleSearchMethodChange}
+                  type='radio'
+                  value='name'
+                />
+                <div className='w-5 h-5 border-2 border-gray-300 rounded-full peer-checked:border-blue-500 peer-checked:bg-blue-500 transition-all duration-200 group-hover:border-blue-400'>
+                  <div className='w-2 h-2 bg-white rounded-full m-auto mt-1.5 peer-checked:opacity-100 opacity-0 transition-opacity duration-200' />
+                </div>
+                <span className='ml-2 text-gray-700 font-medium group-hover:text-blue-500 transition-colors duration-200'>
+                  이름으로 검색
+                </span>
+              </label>
+
+              <label className='relative flex items-center cursor-pointer group'>
+                <input
+                  checked={searchMethod === 'category'}
+                  className='sr-only peer'
+                  name='searchMethod'
+                  onChange={handleSearchMethodChange}
+                  type='radio'
+                  value='category'
+                />
+                <div className='w-5 h-5 border-2 border-gray-300 rounded-full peer-checked:border-blue-500 peer-checked:bg-blue-500 transition-all duration-200 group-hover:border-blue-400'>
+                  <div className='w-2 h-2 bg-white rounded-full m-auto mt-1.5 peer-checked:opacity-100 opacity-0 transition-opacity duration-200' />
+                </div>
+                <span className='ml-2 text-gray-700 font-medium group-hover:text-blue-500 transition-colors duration-200'>
+                  카테고리로 검색
+                </span>
+              </label>
+            </div>
+
+            {searchMethod === 'name' && (
+              <div className='flex-1'>
+                <input
+                  className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
+                  onChange={handleSearchChange}
+                  placeholder='음식점 이름을 입력하세요'
+                  type='text'
+                  value={searchQuery}
+                />
+              </div>
+            )}
+
+            {searchMethod === 'category' && (
+              <div className='flex-1'>
+                <div className='grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-2 lg:gap-2'>
+                  {categoryList.map(category => (
+                    <label
+                      className={`relative flex flex-col items-center p-3 lg:p-4 px-5 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
+                        selectedCategory === category.value
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-200 hover:border-blue-300'
+                      }`}
+                      key={category.value}
+                    >
+                      <input
+                        checked={selectedCategory === category.value}
+                        className='sr-only'
+                        name='category'
+                        onChange={handleCategoryChange}
+                        type='radio'
+                        value={category.value}
+                      />
+                      <div className='text-2xl lg:text-3xl mb-2 lg:mb-3'>
+                        {category.value === 'ALL' && '🍽️'}
+                        {category.value === 'KOREAN' && '🍚'}
+                        {category.value === 'CHINESE' && '🥢'}
+                        {category.value === 'JAPANESE' && '🍣'}
+                        {category.value === 'WESTERN' && '🍝'}
+                        {category.value === 'ASIAN' && '🍜'}
+                        {category.value === 'DESSERT' && '🍰'}
+                      </div>
+                      <span className='text-xs lg:text-sm font-medium text-gray-700 text-center'>{category.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-          {searchMethod === 'name' && (
-            <input
-              className='p-2 border border-gray-300 rounded'
-              onChange={handleSearchChange}
-              placeholder='Search by name'
-              type='text'
-              value={searchQuery}
-            />
-          )}
-          {searchMethod === 'category' && (
-            <select
-              className='p-2 border border-gray-300 rounded'
-              onChange={handleCategoryChange}
-              value={selectedCategory}
-            >
-              {categoryList.map(category => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
-          )}
         </div>
         <table className='min-w-full bg-white'>
           <thead>
