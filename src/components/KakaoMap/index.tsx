@@ -74,8 +74,6 @@ function KakaoMap() {
     JAPANESE: '🍣',
     WESTERN: '🍝',
     ASIAN: '🍜',
-    CAFE: '☕',
-    ETC: '🍽️',
     DESSERT: '🍰',
   };
 

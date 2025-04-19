@@ -32,7 +32,7 @@ const LNB = () => {
     <>
       {/* Mobile Menu Button */}
       <button
-        className='md:hidden fixed bottom-4 right-4 bg-gradient-to-r from-food-pink-300 to-food-pink-400 text-white p-4 rounded-full shadow-lg z-50 hover:shadow-xl transition-all duration-300'
+        className='md:hidden fixed bottom-4 right-4 bg-gradient-to-r from-food-pink-300 to-food-pink-400 text-white pt-2.5 pb-3 pr-4 pl-4 rounded-4xl shadow-lg z-50 hover:shadow-xl transition-all duration-300'
         onClick={() => setIsOpen(!isOpen)}
         type='button'
       >
