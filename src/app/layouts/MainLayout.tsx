@@ -4,13 +4,13 @@ import LNB from './LNB';
 
 const MainLayout = () => {
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='min-h-screen bg-gradient-to-b from-white to-gray-50'>
       <GNB />
-      <div className='flex flex-1'>
+      <div className='flex pt-16'>
         <LNB />
-        <div className='flex-1'>
+        <main className='flex-1 md:ml-[240px] p-4'>
           <Outlet />
-        </div>
+        </main>
       </div>
     </div>
   );
