@@ -3,23 +3,27 @@ import Loading from '@app/components/Loading';
 import { useSessionStore } from '@app/store/lib/useSessionStore';
 import type { ReportInfo } from '@app/types/api';
 import { categoryList } from '@app/types/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const VoteDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [report, setReport] = useState<ReportInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { userInfo } = useSessionStore();
+  const alertShown = useRef(false);
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo && !alertShown.current) {
+      alertShown.current = true;
       alert('로그인 후 사용해주세요.');
-      window.location.href = '/';
+      navigate('/');
     }
-  }, [userInfo]);
+  }, [userInfo, navigate]);
 
   useEffect(() => {
     const fetchReport = async () => {

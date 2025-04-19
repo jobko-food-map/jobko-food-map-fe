@@ -3,7 +3,7 @@ import type { ReportInfo } from '@app/types/api';
 import { categoryList } from '@app/types/api';
 import type { ApiErrorResponse } from '@app/types/error';
 import type React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import BaseButton from '../BaseButton';
 import Loading from '../Loading';
@@ -25,6 +25,7 @@ const Vote = () => {
     {},
   );
   const navigate = useNavigate();
+  const alertShown = useRef(false);
 
   const fetchReports = useCallback(async () => {
     setError(null);
@@ -49,11 +50,12 @@ const Vote = () => {
   }, [currentPage, pageSize]);
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo && !alertShown.current) {
+      alertShown.current = true;
       alert('로그인 후 사용해주세요.');
-      window.location.href = '/';
+      navigate('/');
     }
-  }, [userInfo]);
+  }, [userInfo, navigate]);
 
   useEffect(() => {
     fetchReports();
