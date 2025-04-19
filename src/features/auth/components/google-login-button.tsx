@@ -40,7 +40,7 @@ const CustomButton = () => {
       onClick={() => loginProcess()}
       type='button'
     >
-      Google Login
+      잡코리아 구글 로그인 ❤️
     </button>
   );
 };
