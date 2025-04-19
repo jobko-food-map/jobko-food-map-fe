@@ -1,6 +1,5 @@
 import { useSessionStore } from '@app/store';
 import type { ReportInfo } from '@app/types/api';
-import { categoryList } from '@app/types/api';
 import type { ApiErrorResponse } from '@app/types/error';
 import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -164,85 +163,112 @@ const Vote = () => {
   }
 
   return (
-    <div className='p-4'>
-      <h1 className='text-2xl font-bold mb-4'>제보된 장소</h1>
-      <h3>좋아요/별로에요 차이가 5개 이상이면 자동으로 목록에 등록됩니다.</h3>
-      <table className='min-w-full bg-white table-fixed'>
-        <thead>
-          <tr>
-            <th className='py-2 px-4 border-b w-1/4'>이름</th>
-            <th className='py-2 px-4 border-b w-1/6'>카테고리</th>
-            <th className='py-2 px-4 border-b w-1/4'>설명</th>
-            <th className='py-2 px-4 border-b w-1/6'>지도보기</th>
-            <th className='py-2 px-4 border-b w-1/4'>투표하기</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reports.content.map(report => (
-            <tr
-              className='hover:bg-gray-100 cursor-pointer'
-              key={report.id}
-              // onClick={() => handleRowClick(report.id)}
-            >
-              <td className='py-2 px-4 border-b text-center align-middle'>{report.placeName}</td>
-              <td className='py-2 px-4 border-b text-center align-middle'>
-                {categoryList.find(f => f.value === report.category)?.label}
-              </td>
-              <td className='py-2 px-4 border-b text-center align-middle'>{report.placeDesc}</td>
-              <td className='py-2 px-4 border-b text-center align-middle'>
-                <BaseButton
-                  className='bg-food-orange-300 opacity-80 p-2 rounded-2xl text-white hover:bg-food-orange-500'
-                  onClick={e => handleMapViewClick(report.placeId, e)}
-                >
-                  지도보기
-                </BaseButton>
-              </td>
-              <td className='py-2 px-4 border-b text-center align-middle'>
-                <BaseButton
-                  className='bg-green-400 text-white px-2 py-1 rounded hover:bg-green-600 mr-2 min-w-[100px]'
-                  disabled={loadingReportIds[report.id]?.approve}
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleApprove(report);
-                  }}
-                >
-                  {loadingReportIds[report.id]?.approve ? (
-                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1' />
-                  ) : (
-                    `좋아요: ${report.approveCount}`
-                  )}
-                </BaseButton>
-                <BaseButton
-                  className='bg-red-400 text-white px-2 py-1 rounded hover:bg-red-600 min-w-[100px]'
-                  disabled={loadingReportIds[report.id]?.reject}
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleReject(report);
-                  }}
-                >
-                  {loadingReportIds[report.id]?.reject ? (
-                    <div className='inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1' />
-                  ) : (
-                    `별로에요: ${report.rejectCount}`
-                  )}
-                </BaseButton>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className='flex justify-center mt-4'>
-        {Array.from({ length: reports.totalPages }, (_, index) => (
-          <BaseButton
-            className={`px-4 py-2 mx-1 border rounded ${
-              currentPage === index ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
-            }`}
-            key={index}
-            onClick={() => handlePageChange(index)}
-          >
-            {index + 1}
-          </BaseButton>
-        ))}
+    <div className='min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto'>
+        <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
+          <div className='p-6 sm:p-8'>
+            <h1 className='text-3xl font-bold text-gray-900 mb-4'>제보된 장소</h1>
+            <p className='text-gray-600 mb-8'>좋아요/별로에요 차이가 5개 이상이면 자동으로 목록에 등록됩니다.</p>
+
+            <div className='overflow-x-auto'>
+              <div className='min-w-full divide-y divide-gray-200'>
+                {reports.content.map(report => (
+                  <div
+                    className='p-6 hover:bg-gray-50 transition-colors duration-200 cursor-pointer'
+                    key={report.id}
+                    onClick={() => handleRowClick(report.id)}
+                  >
+                    <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+                      <div className='flex-1'>
+                        <div className='flex items-center gap-3 mb-2'>
+                          <h3 className='text-xl font-semibold text-gray-900'>{report.placeName}</h3>
+                          <span className='text-lg'>
+                            {report.category === 'KOREAN' && '🍚'}
+                            {report.category === 'CHINESE' && '🥢'}
+                            {report.category === 'JAPANESE' && '🍣'}
+                            {report.category === 'WESTERN' && '🍝'}
+                            {report.category === 'ASIAN' && '🍜'}
+                            {report.category === 'DESSERT' && '🍰'}
+                          </span>
+                        </div>
+                        <p className='text-gray-600'>{report.placeDesc}</p>
+                      </div>
+
+                      <div className='flex flex-col sm:flex-row gap-3'>
+                        <BaseButton
+                          className='bg-food-orange-300 text-white px-4 py-2 rounded-lg hover:bg-food-orange-500 transition-colors duration-200 flex items-center justify-center gap-2'
+                          onClick={e => handleMapViewClick(report.placeId, e)}
+                        >
+                          <span>지도보기</span>
+                        </BaseButton>
+
+                        <div className='flex gap-2'>
+                          <BaseButton
+                            className='bg-green-400 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 flex items-center justify-center gap-2 min-w-[120px]'
+                            disabled={loadingReportIds[report.id]?.approve}
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleApprove(report);
+                            }}
+                          >
+                            {loadingReportIds[report.id]?.approve ? (
+                              <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
+                            ) : (
+                              <>
+                                <span>좋아요</span>
+                                <span className='bg-white/20 px-2 py-0.5 rounded-full text-sm'>
+                                  {report.approveCount}
+                                </span>
+                              </>
+                            )}
+                          </BaseButton>
+
+                          <BaseButton
+                            className='bg-red-400 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200 flex items-center justify-center gap-2 min-w-[120px]'
+                            disabled={loadingReportIds[report.id]?.reject}
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleReject(report);
+                            }}
+                          >
+                            {loadingReportIds[report.id]?.reject ? (
+                              <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
+                            ) : (
+                              <>
+                                <span>별로에요</span>
+                                <span className='bg-white/20 px-2 py-0.5 rounded-full text-sm'>
+                                  {report.rejectCount}
+                                </span>
+                              </>
+                            )}
+                          </BaseButton>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className='flex justify-center mt-8'>
+              <div className='flex gap-2'>
+                {Array.from({ length: reports.totalPages }, (_, index) => (
+                  <BaseButton
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 ${
+                      currentPage === index
+                        ? 'bg-food-orange-300 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                    key={index}
+                    onClick={() => handlePageChange(index)}
+                  >
+                    {index + 1}
+                  </BaseButton>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
