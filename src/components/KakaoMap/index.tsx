@@ -13,7 +13,6 @@ function KakaoMap() {
   const [selectedCategory, setSelectedCategory] = useState<FoodCategory | 'ALL'>('ALL');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [cardPosition, setCardPosition] = useState<{ top: number; left: number } | null>(null);
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -36,20 +35,9 @@ function KakaoMap() {
     fetchPlaces();
   }, []);
 
-  const handleMarkerClick = (data: PlaceInfo, marker: kakao.maps.Marker) => {
+  const handleMarkerClick = (data: PlaceInfo) => {
     setSelectedPlace(data);
     setHoveredPlaceId(null);
-
-    // Get the position of the marker on the screen
-    const target = marker.getPosition();
-    target.getLat();
-    target.getLng();
-    // console.log(target)
-    // const rect = target.getBoundingClientRect();
-    // setCardPosition({
-    //   top: rect.top + window.scrollY,
-    //   left: rect.left + window.scrollX + 50, // Offset to the right of the marker
-    // });
   };
 
   const handleMouseOver = (placeId: string) => {
@@ -62,7 +50,6 @@ function KakaoMap() {
 
   const handleCloseCard = () => {
     setSelectedPlace(null);
-    setCardPosition(null);
   };
 
   const handleCategoryChange = (category: FoodCategory | 'ALL') => {
@@ -80,22 +67,40 @@ function KakaoMap() {
     return <div>{error}</div>;
   }
 
+  const categoryIcons: Record<FoodCategory | 'ALL', string> = {
+    ALL: '🌍',
+    KOREAN: '🍚',
+    CHINESE: '🥢',
+    JAPANESE: '🍣',
+    WESTERN: '🍝',
+    ASIAN: '🍜',
+    CAFE: '☕',
+    ETC: '🍽️',
+    DESSERT: '🍰',
+  };
+
   return (
     places && (
       <div className='relative'>
-        <div className='absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-4'>
+        {/* Category Filter */}
+        <div className='absolute top-4 left-1/2 transform -translate-x-1/2 z-10 flex space-x-2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg whitespace-nowrap overflow-x-auto max-w-[90vw]'>
           {categoryList.map(category => (
             <BaseButton
-              className={`bg-food-orange-300 text-white px-4 py-2 rounded-2xl hover:bg-food-orange-500 ${
-                selectedCategory === category.value ? 'bg-food-orange-500' : ''
+              className={`px-4 py-2 rounded-full transition-all duration-300 flex items-center space-x-2 ${
+                selectedCategory === category.value
+                  ? 'bg-gradient-to-r from-food-pink-300 to-food-pink-400 text-white shadow-lg scale-105'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
               }`}
               key={category.value}
               onClick={() => handleCategoryChange(category.value)}
             >
-              {category.label}
+              <span className='text-lg'>{categoryIcons[category.value]}</span>
+              <span>{category.label}</span>
             </BaseButton>
           ))}
         </div>
+
+        {/* Map */}
         <KaKaoMap
           center={{
             lat: 37.4941971,
@@ -110,22 +115,25 @@ function KakaoMap() {
         >
           {filteredData?.map(data => (
             <React.Fragment key={data.placeId}>
+              {/* Hover Info Window */}
               {hoveredPlaceId === data.placeId && (
                 <CustomOverlayMap position={{ lat: data.lat - 0.0002, lng: data.lng }}>
-                  <div style={{ padding: '10px', backgroundColor: 'white', border: '1px solid black' }}>
-                    {data.placeName}
+                  <div className='bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-gray-100 transform -translate-y-2 transition-all duration-300'>
+                    <p className='text-sm font-medium text-gray-800'>{data.placeName}</p>
                   </div>
                 </CustomOverlayMap>
               )}
+
+              {/* Marker */}
               <MapMarker
                 image={{
-                  src: '/imgs/mark.png', // Path to the custom marker image
+                  src: '/imgs/mark.png',
                   size: {
                     width: 36,
                     height: 46,
                   },
                 }}
-                onClick={marker => handleMarkerClick(data, marker)}
+                onClick={() => handleMarkerClick(data)}
                 onMouseOut={handleMouseOut}
                 onMouseOver={() => handleMouseOver(data.placeId)}
                 position={{
@@ -136,19 +144,24 @@ function KakaoMap() {
               />
             </React.Fragment>
           ))}
+
+          {/* Selected Place Info Window */}
           {selectedPlace && (
             <CustomOverlayMap position={{ lat: selectedPlace.lat - 0.0001, lng: selectedPlace.lng - 0.0002 }}>
-              <div
-                className='absolute z-20 bg-white p-4 border border-gray-300 rounded shadow-lg'
-                style={{ top: '20%', left: '70%' }}
-              >
-                <BaseButton className='absolute top-1 right-3 text-gray-500' onClick={() => setSelectedPlace(null)}>
-                  &times;
-                </BaseButton>
-                <h2 className='text-lg font-bold'>{selectedPlace.placeName}</h2>
-                <p className='mb-3'>{selectedPlace.placeDesc}</p>
+              <div className='bg-white/95 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-gray-100 transform transition-all duration-300 w-80'>
+                <button
+                  className='absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors duration-200'
+                  onClick={handleCloseCard}
+                  type='button'
+                >
+                  <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path d='M6 18L18 6M6 6l12 12' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' />
+                  </svg>
+                </button>
+                <h2 className='text-xl font-bold text-gray-800 mb-2'>{selectedPlace.placeName}</h2>
+                <p className='text-gray-600 mb-4'>{selectedPlace.placeDesc}</p>
                 <a
-                  className='bg-food-pink-200 opacity-80 p-2 rounded text-white'
+                  className='inline-block bg-gradient-to-r from-food-pink-300 to-food-pink-400 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300'
                   href={`https://map.kakao.com/link/map/${selectedPlace.placeId}`}
                   rel='noopener noreferrer'
                   target='_blank'
