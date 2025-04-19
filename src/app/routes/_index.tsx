@@ -8,7 +8,7 @@ const AppRoot = () => {
           <p className='text-xl text-gray-600 max-w-3xl mx-auto mb-8'>
             잡코리아&알바몬 점메추 서비스에 오신 여러분을 환영합니다!
             <br />
-            로그인 후, 점심메뉴를 제보하고 투표해보세요!
+            jobkorea 구글 로그인 후, 점심메뉴를 제보하고 투표해보세요!
           </p>
         </div>
 

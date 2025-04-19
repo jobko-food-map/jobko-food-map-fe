@@ -71,8 +71,6 @@ function FoodList() {
     JAPANESE: '🍣',
     WESTERN: '🍝',
     ASIAN: '🍜',
-    CAFE: '☕',
-    ETC: '🍽️',
     DESSERT: '🍰',
   };
 
