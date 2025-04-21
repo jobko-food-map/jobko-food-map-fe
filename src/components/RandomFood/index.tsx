@@ -56,36 +56,46 @@ function RandomFood() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center h-full bg-gray-100'>
-      <h1 className='text-2xl font-bold mb-6'>랜덤 음식 추천</h1>
-      <p className='text-sm text-gray-500 mb-4'>레버를 당겨서 등록된 맛집 중 랜덤으로 음식을 추천받아보세요!</p>
-      <div className='relative w-64 h-32 border border-gray-300 rounded overflow-hidden bg-white'>
-        <div
-          className='absolute w-full h-full transition-transform duration-100 ease-linear'
-          style={{
-            transform: `translateY(-${slotIndex * 100}%)`,
-          }}
+    <div className='flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-white p-4'>
+      <div className='max-w-md w-full space-y-6'>
+        <div className='text-center'>
+          <h1 className='text-3xl font-bold text-gray-900'>랜덤 음식 추천</h1>
+          <p className='text-gray-600 mt-2'>레버를 당겨서 점메추 등록된 맛집 중 랜덤으로 음식을 추천받아보세요!</p>
+        </div>
+
+        <div className='relative w-full h-48 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100'>
+          <div
+            className='absolute w-full h-full transition-transform duration-100 ease-linear'
+            style={{
+              transform: `translateY(-${slotIndex * 100}%)`,
+            }}
+          >
+            {foods.map(food => (
+              <div className='w-full h-48 flex items-center justify-center border-b border-gray-100' key={food.id}>
+                <h2 className='text-2xl font-bold text-gray-800'>{food.name}</h2>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <BaseButton
+          className='w-full bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-4 rounded-xl hover:from-orange-500 hover:to-orange-600 transform active:scale-95 transition-all duration-200 shadow-lg'
+          disabled={isSpinning}
+          onClick={handleSpin}
         >
-          {foods.map(food => (
-            <div className='w-full h-32 flex items-center justify-center border-b border-gray-200' key={food.id}>
-              <h2 className='text-lg font-bold'>{food.name}</h2>
-            </div>
-          ))}
-        </div>
+          <span className='flex items-center justify-center gap-2'>
+            레버 당기기
+            <span className='text-xl'>🎰</span>
+          </span>
+        </BaseButton>
+
+        {selectedFood && (
+          <div className='mt-6 p-6 bg-white rounded-xl shadow-lg border border-gray-100'>
+            <h2 className='text-2xl font-bold text-gray-900 mb-2'>{selectedFood.name}</h2>
+            <p className='text-gray-600'>{selectedFood.description}</p>
+          </div>
+        )}
       </div>
-      <BaseButton
-        className='mt-6 bg-yellow-500 text-white px-6 py-3 rounded-full hover:bg-yellow-600 transform active:translate-y-1'
-        disabled={isSpinning}
-        onClick={handleSpin}
-      >
-        레버 당기기 🎰
-      </BaseButton>
-      {selectedFood && (
-        <div className='mt-6 text-center'>
-          <h2 className='text-lg font-bold'>{selectedFood.name}</h2>
-          <p className='text-sm text-gray-500'>{selectedFood.description}</p>
-        </div>
-      )}
     </div>
   );
 }
