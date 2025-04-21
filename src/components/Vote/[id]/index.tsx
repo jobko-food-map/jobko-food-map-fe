@@ -3,6 +3,7 @@ import Loading from '@app/components/Loading';
 import { useSessionStore } from '@app/store/lib/useSessionStore';
 import type { ReportInfo } from '@app/types/api';
 import { categoryList } from '@app/types/api';
+import type { ApiErrorResponse } from '@app/types/error';
 import { useEffect, useRef, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
@@ -46,9 +47,18 @@ const VoteDetail = () => {
     }
 
     try {
-      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}/approve`, {
+      const response = await fetch('https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: id, isApprove: true }),
       });
+
+      if (response.ok) {
+        alert('소중한 한표 감사드립니다.');
+      } else {
+        const errorData = (await response.json()) as ApiErrorResponse;
+        alert(errorData.message);
+      }
     } catch (err) {
       console.error('Error approving report:', err);
       alert('An error occurred while approving the report.');
@@ -62,13 +72,17 @@ const VoteDetail = () => {
     }
 
     try {
-      const response = await fetch(`https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/report/${id}/reject`, {
+      const response = await fetch('https://quick-maudie-foodmap-c9af4ec2.koyeb.app/v1/vote', {
         method: 'POST',
+        body: JSON.stringify({ userId: userInfo?.userId, reportId: id, isApprove: false }),
+        headers: { 'Content-Type': 'application/json' },
       });
+
       if (response.ok) {
-        alert('Report rejected successfully!');
+        alert('소중한 한표 감사드립니다.');
       } else {
-        alert('Failed to reject report.');
+        const errorData = (await response.json()) as ApiErrorResponse;
+        alert(errorData.message);
       }
     } catch (err) {
       console.error('Error rejecting report:', err);
