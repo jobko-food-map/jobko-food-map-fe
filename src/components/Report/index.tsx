@@ -112,7 +112,9 @@ function Report() {
       <div className='max-w-7xl mx-auto'>
         <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
           <div className='p-6 sm:p-8'>
-            <h1 className='text-3xl font-bold text-gray-900 mb-8'>새로운 장소 제보하기</h1>
+            <h1 className='text-3xl font-bold text-gray-900 mb-4'>새로운 장소 제보하기</h1>
+            <p className='text-gray-600 mb-1'>당신을 띠용~~하게 만든 곳을 공유해주세요!! ❤️</p>
+            <img alt='띠용' className='w-[200px] mb-2 ml-7 rounded-[100px]' src='/imgs/ddiyong.png' />
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
               <div>
                 <form className='space-y-6' onSubmit={handleSubmit}>

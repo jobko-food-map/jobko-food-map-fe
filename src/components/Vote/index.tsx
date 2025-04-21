@@ -182,7 +182,11 @@ const Vote = () => {
         <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
           <div className='p-6 sm:p-8'>
             <h1 className='text-3xl font-bold text-gray-900 mb-4'>제보된 장소</h1>
-            <p className='text-gray-600 mb-8'>좋아요/별로에요 차이가 5개 이상이면 자동으로 목록에 등록됩니다.</p>
+            <p className='text-gray-600 mb-8'>
+              좋아요/별로에요 차이가 5개 이상이면 자동으로 목록에 등록됩니다.
+              <br />
+              여러분의 소중한 한표가 맛집 지도의 미래를 결정합니다
+            </p>
 
             <div className='overflow-x-auto'>
               <div className='min-w-full divide-y divide-gray-200'>
