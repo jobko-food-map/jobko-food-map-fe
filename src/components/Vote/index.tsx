@@ -52,6 +52,15 @@ const Vote = () => {
     fetchReports();
   }, [fetchReports]);
 
+  const [voteDiffCheck, setVoteDiffCheck] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (voteDiffCheck) {
+      fetchReports();
+      setVoteDiffCheck(false);
+    }
+  }, [voteDiffCheck, fetchReports]);
+
   // 투표 카운트 업데이트 헬퍼 함수
   const updateReportCount = (reportId: number, isApprove: boolean) => {
     if (!reports) return;
@@ -63,10 +72,13 @@ const Vote = () => {
         ...prevReports,
         content: prevReports.content.map(report => {
           if (report.id === reportId) {
+            const approveCountData = isApprove ? report.approveCount + 1 : report.approveCount;
+            const rejectCountData = !isApprove ? report.rejectCount + 1 : report.rejectCount;
+            setVoteDiffCheck(Math.abs(approveCountData - rejectCountData) >= 5);
             return {
               ...report,
-              approveCount: isApprove ? report.approveCount + 1 : report.approveCount,
-              rejectCount: !isApprove ? report.rejectCount + 1 : report.rejectCount,
+              approveCount: approveCountData,
+              rejectCount: rejectCountData,
             };
           }
           return report;
