@@ -26,7 +26,7 @@ const AppRoot = () => {
             </div>
             <div className='bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow'>
               <h3 className='text-lg font-semibold text-gray-900 mb-2'>양지원</h3>
-              <p className='text-gray-600'>커넥션스쿼드 - 백엔드 담당</p>
+              <p className='text-gray-600'>공통플랫폼 - 백엔드 담당</p>
             </div>
             <div className='bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow'>
               <h3 className='text-lg font-semibold text-gray-900 mb-2'>유선영</h3>
@@ -35,6 +35,10 @@ const AppRoot = () => {
             <div className='bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow'>
               <h3 className='text-lg font-semibold text-gray-900 mb-2'>김승미</h3>
               <p className='text-gray-600'>AM사용성개선스쿼드 - 프론트엔드 담당</p>
+            </div>
+            <div className='bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow'>
+              <h3 className='text-lg font-semibold text-gray-900 mb-2'>남혜림</h3>
+              <p className='text-gray-600'>커넥션스쿼드 - 백엔드 담당</p>
             </div>
           </div>
         </div>
