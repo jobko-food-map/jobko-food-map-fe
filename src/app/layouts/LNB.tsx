@@ -23,6 +23,7 @@ const LNB = () => {
   const menuItems = [
     { path: paths.map.getHref(), label: '지도로 보기', icon: '🗺️', color: 'from-blue-600 to-blue-700' },
     { path: paths.list.getHref(), label: '목록으로 보기', icon: '📋', color: 'from-green-600 to-green-700' },
+    { path: paths.randomFood.getHref(), label: '랜덤 음식 추천', icon: '🎲', color: 'from-red-600 to-red-700' },
     { path: paths.report.getHref(), label: '제보하기', icon: '✏️', color: 'from-purple-600 to-purple-700' },
     { path: paths.adminReport.getHref(), label: '투표하기', icon: '🗳️', color: 'from-pink-600 to-pink-700' },
     {
@@ -31,7 +32,6 @@ const LNB = () => {
       icon: '❌',
       color: 'from-yellow-600 to-yellow-700',
     },
-    { path: paths.randomFood.getHref(), label: '랜덤 음식 추천', icon: '🎲', color: 'from-red-600 to-red-700' },
   ];
 
   return (
