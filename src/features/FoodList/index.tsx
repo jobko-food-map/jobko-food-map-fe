@@ -3,8 +3,8 @@ import type { FoodCategory } from '@app/types/api/enum';
 import { categoryList } from '@app/types/api/enum';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import BaseButton from '../BaseButton';
-import Loading from '../Loading';
+import BaseButton from '@app/components/BaseButton';
+import Loading from '@app/components/Loading';
 
 function FoodList() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();

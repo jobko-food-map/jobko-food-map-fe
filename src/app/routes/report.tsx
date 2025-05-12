@@ -1,4 +1,4 @@
-import Report from '@app/components/Report';
+import Report from '@app/features/Report';
 
 function ReportRoute() {
   return (

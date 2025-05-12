@@ -4,9 +4,8 @@ import type { ApiErrorResponse } from '@app/types/error';
 import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import BaseButton from '../BaseButton';
-import Loading from '../Loading';
-
+import BaseButton from '@app/components/BaseButton';
+import Loading from '@app/components/Loading';
 interface V1AllReportGetResponse {
   content: ReportInfo[];
   totalPages: number;

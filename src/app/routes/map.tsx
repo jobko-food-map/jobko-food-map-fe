@@ -1,4 +1,4 @@
-import KakaoMap from '@app/components/KakaoMap';
+import KakaoMap from '@app/features/KakaoMap';
 
 const MapRoute = () => {
   return (

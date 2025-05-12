@@ -1,4 +1,4 @@
-import RejectFoodList from '@app/components/RejectFoodList';
+import RejectFoodList from '@app/features/RejectFoodList';
 
 function RejectFoodRoute() {
   return <RejectFoodList />;

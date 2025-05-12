@@ -3,8 +3,8 @@ import type { FoodCategory } from '@app/types/api/enum';
 import { categoryList } from '@app/types/api/enum';
 import React, { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map as KaKaoMap, MapMarker } from 'react-kakao-maps-sdk';
-import BaseButton from '../BaseButton';
-import Loading from '../Loading';
+import BaseButton from '@app/components/BaseButton';
+import Loading from '@app/components/Loading';
 
 function KakaoMap() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();

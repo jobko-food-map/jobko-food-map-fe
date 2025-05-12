@@ -1,4 +1,4 @@
-import Vote from '@app/components/Vote';
+import Vote from '@app/features/Vote';
 
 function VoteRoute() {
   return (

@@ -2,7 +2,7 @@ import type { FoodCategory, V1AllPlaceGetResponse } from '@app/types/api';
 import { categoryList } from '@app/types/api';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import Loading from '../Loading';
+import Loading from '@app/components/Loading';
 
 function RejectFoodList() {
   const [places, setPlaces] = useState<V1AllPlaceGetResponse>();

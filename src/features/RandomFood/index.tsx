@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import BaseButton from '../BaseButton';
+import BaseButton from '@app/components/BaseButton';
+
 
 interface Food {
   id: number;

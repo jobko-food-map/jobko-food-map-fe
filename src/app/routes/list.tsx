@@ -1,4 +1,4 @@
-import FoodList from '@app/components/FoodList';
+import FoodList from '@app/features/FoodList';
 
 function ListRoute() {
   return <FoodList />;
